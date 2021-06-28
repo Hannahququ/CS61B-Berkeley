@@ -19,6 +19,13 @@ public class HelloWorld {
 }
 ```
 {% endtab %}
+
+{% tab title="Hello Numbers" %}
+```java
+pulic class HelloNumbers{
+
+```
+{% endtab %}
 {% endtabs %}
 
 
