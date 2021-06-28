@@ -6,7 +6,7 @@ Instructor: Josh Hug
 
 ## Lecture Notes
 
-* [L1 Intro, Hello World Java](https://github.com/Hannahququ/CS61B-Berkeley/blob/master/cs61b-week-01.md)
+* [Intro, Hello World Java](https://github.com/Hannahququ/CS61B-Berkeley/blob/master/cs61b-week-01.md)
 * 
 
 
