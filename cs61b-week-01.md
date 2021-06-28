@@ -1,13 +1,25 @@
-# CS61B Week 01
+# L1 Intro, Hello World Java
 
-## 1.1 Intro, Hello World Java
+## Introduction
 
-### Introdection
+### What is 61?
 
-#### What is 61?
-
-* Wrubgit
-* sauihajng
+* Writing codes that runs efficiently. \(Algorithms and Data Structures\)
+* Writing code efficiently.
 
 ### First Java Program
+
+{% tabs %}
+{% tab title="Hello World" %}
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+```
+{% endtab %}
+{% endtabs %}
+
+
 
