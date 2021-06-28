@@ -4,8 +4,8 @@ CS61B Data Structures, Spring 2021
 
 ## Lecture Notes
 
-* Intro, Hello World Java
-* Defining and Using Classes
+* [Intro, Hello World Java] (docs/CONTRIBUTING.md)
+* [Defining and Using Classes] (docs/CONTRIBUTING.md)
 
 
 
