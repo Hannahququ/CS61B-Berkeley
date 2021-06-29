@@ -1,15 +1,15 @@
-# Week 1
+# CS61B Week 1
 
-## Introduction
+## Lecture 1 Intro, Hello World Java
 
-### What is 61?
+### 1. Introduction
+
+#### What is 61?
 
 * Writing codes that runs efficiently. \(Algorithms and Data Structures\)
 * Writing code efficiently.
 
-## First Java Program
-
-### 1. HelloWorld & LargerDemo
+### 2. HelloWorld & LargerDemo
 
 ```java
 public class HelloWorld {
