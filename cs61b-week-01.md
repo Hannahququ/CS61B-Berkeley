@@ -9,7 +9,7 @@
 
 ## First Java Program
 
-### 1. Hello World & Hello Numbers
+### 1. HelloWorld & LargerDemo
 
 ```java
 public class HelloWorld {
@@ -20,21 +20,26 @@ public class HelloWorld {
 ```
 
 ```java
-public class HelloNumbers {
-	public static void main(String[] args) {
-		int x = 0;
-		while (x < 10) {
-			System.out.println(x);
-			x = x + 1;
+public class LargerDemo {
+	/** Returns the larger of x and y. */
+	public static int larger(int x, int y) {
+		if (x > y) {
+			return x;
 		}
-
-		x = "horse";
+		return y;
 	}
-}
+
+	public static void main(String[] args) {
+		System.out.println(larger(-5.5, 10));
+	}
+} 
 ```
 
 1. All codes must be in class.
 2. Curly braces and semi-colons.
-3. 
+3. Var must be declared a specific type before use it, every var in functions, and type can't change, eg: \(int x , int y\);
+4. Type verified before code run, if has type issue, code won't run.
+5. public static declare functions, functions must have return type \(int\) or void, main is method\(function in class called method\)
+
 
 
