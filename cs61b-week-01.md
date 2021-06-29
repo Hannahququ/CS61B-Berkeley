@@ -37,9 +37,34 @@ public class LargerDemo {
 
 1. All codes must be in class.
 2. Curly braces and semi-colons.
-3. Var must be declared a specific type before use it \(called static type\), and type can't change, eg: \(int x , int y\);
+3. Var must be declared a specific type before use it, and type can't change, so called static type,  eg: \(int x , int y\); int x = 1;
 4. Type verified before code run, if has type issue, code won't run.
 5. public static declare functions, functions must have return type \(int\) or void, `main` or `larger` is method \(function in class called method\) 
+
+### 3. Conditional \(if, while\)
+
+#### \(1\) if 
+
+* if-else if-else clauses can be nested and daisy-chained. Nesting can build decision trees. Daisy-chaining can present more than two alternatives. Eg: find the max of three numbers.
+* even there is only one statement, still use curly braces, avoid bugs
+
+```java
+  if (x > y) {
+      if (x > z) {
+        maximum = x;
+      } else {
+        maximum = z;
+      }
+    } else if (y > z) {
+      maximum = y;
+    } else {
+      maximum = z;
+    }
+```
+
+## Lecture 2 Defining and Using Classes
+
+
 
 
 
