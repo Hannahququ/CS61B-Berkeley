@@ -1,4 +1,4 @@
-# L1 Intro, Hello World Java
+# Week 1
 
 ## Introduction
 
