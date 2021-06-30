@@ -65,7 +65,7 @@ $ cat HelloWorld.java // show the specific code
 ### 2. Defining Classes
 
 * Every method is associated with some class.
-* To run a class, we must define a main method.
+* To run a class, we must define a main method, methons can be invoked by main method of another class
 
 ```java
 public class Dog {
@@ -136,9 +136,17 @@ public class DogLauncher {
 
 #### \(2\) Constructor
 
+Constructor tell java what to do when a program tries to create an instance of a class
+
 ```java
 public class DogLauncher {
     public static void main(String[] args) {
+        
+     //One integer constructor for dogs
+    public Dog(int w) {
+        weightInPounds = w;
+    }    
+        
         Dog d = new Dog(25); 
         d.makeNoise();  
     } //create a constructor below Dog class
@@ -202,15 +210,17 @@ dog[0].makeNoise();
 
 #### \(1\) Diff
 
-* Static methods are invoked by using the class name, eg: Dog.makeNoise\(\);
-* Instance methods are invoked by using an instance name, eg: maya.makeNoise\(\);
+* **Static methods** are invoked by using the **class name**, eg: Dog.makeNoise\(\);
+* **Instance methods** are invoked by using an **instance name**, eg: maya.makeNoise\(\);
 * Static methods can't access instance var\(weightInPounds\), but they are more simple to use
-* Static/non-static members=methods=instance var
+* Static/non-static methods or instance var are members of class
 * Static methods must access instance var via a specific instance, eg: d1
 
-#### \(2\)Class mix with static and non-static methods
+#### \(2\) Class mix with static and non-static methods
 
 compare two dogs: d1 and d2 
+
+`this` : Inside a method, use this refer to the current instance
 
 ```java
 public class Dog {
@@ -263,6 +273,8 @@ public class DogLauncher {
 
 #### \(3\) Static Varibles
 
+Static var should be accessed using the class name
+
 ```java
 public class Dog {
     public int weightInPounds; 
@@ -275,5 +287,5 @@ public class Dog {
 
 ### 6. Larger Than 4 Closest Neighbors
 
-I don't know what he is talking about...
+I have no idea what he is talking about...
 
