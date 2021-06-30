@@ -106,8 +106,8 @@ public class Dog {
     
     //One integer constructor for dogs
     public Dog(int w) {
-    
-    
+        weightInPounds = w;
+    }
     
     public void makeNoise() { 
     //no static, because weightInPounds is a non-static var
@@ -142,8 +142,45 @@ public class DogLauncher {
         Dog d = new Dog(25); 
         d.makeNoise();  
     } //create a constructor below Dog class
+} //give new Dog an integer, the constructor will be called
+```
+
+#### \(3\) Terminology
+
+```java
+public class Dog {
+    // Instance variable(can have as many as you want)
+    public int weightInPounds; 
+
+    // Constructor(similar to method, determine how to instantiate the class)
+    public Dog(int startingWeight) { 
+        weightInPounds = startingWeight;
+    }
+
+// Non-static method or Instance method: invoked by an instance of the class
+// If the method need to use my instance var, the method must be non-static
+    public void makeNoise() {
+        if (weightInPounds < 10) {
+            System.out.println("yipyipyip!");
+        } else if (weightInPounds < 30) {
+            System.out.println("bark. bark.");
+        } else {
+            System.out.println("woof!");
+        }
+    }
 }
 ```
 
-#### \(3\) Conclusion code
+```java
+public class DogLauncher {
+    public static void main(String[] args) {
+        Dog smallDog; // Declaration of a Dog var(m: var name/object/class)
+        new Dog(20); // Instantiationof the Dog class as a Dog object
+        smallDog = new Dog(5); // Instantiation and Assignment
+        Dog hugeDog = new Dog(150); // Declaration. Instantiation, and Assignment
+        smallDog.makeNoise(); // Invocate the method
+        hugeDog.makeNoise(); // The dot notation 
+    }
+}
+```
 
