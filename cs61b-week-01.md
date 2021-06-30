@@ -45,8 +45,8 @@ public class LargerDemo {
 
 #### \(1\) if 
 
-* if-else if-else clauses can be nested and daisy-chained. Nesting can build decision trees. Daisy-chaining can present more than two alternatives. Eg: find the max of three numbers.
-* even there is only one statement, still use curly braces, avoid bugs
+* if-else if-else clauses can be **nested** and **daisy-chained**. Nesting can build **decision trees**. Daisy-chaining can present more than two alternatives. Eg: find the max of three numbers.
+* Even there is only one statement inside if, still use curly braces, to avoid bugs
 
 ```java
   if (x > y) {
