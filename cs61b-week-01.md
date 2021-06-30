@@ -184,3 +184,96 @@ public class DogLauncher {
 }
 ```
 
+### 4. Array of Objects
+
+#### To create an array of objects:
+
+* First use the new keyword to create the array
+* Then use new again for each object that you want to put in the array
+
+```java
+Dog [] dogs = new Dog[2];
+dogs[0] = new Dog(8);
+dogs[1] = new Dog(20);
+dog[0].makeNoise();
+```
+
+### 5. Static vs. Non-static\(Instance\) Methods
+
+#### \(1\) Diff
+
+* Static methods are invoked by using the class name, eg: Dog.makeNoise\(\);
+* Instance methods are invoked by using an instance name, eg: maya.makeNoise\(\);
+* Static methods can't access instance var\(weightInPounds\), but they are more simple to use
+* Static/non-static members=methods=instance var
+* Static methods must access instance var via a specific instance, eg: d1
+
+#### \(2\)Class mix with static and non-static methods
+
+compare two dogs: d1 and d2 
+
+```java
+public class Dog {
+    public int weightInPounds; 
+ 
+    public Dog(int w) {
+        weightInPounds = w;
+    
+    public void makeNoise() { 
+    //no static, because weightInPounds is a non-static var
+        if (weightInPounds < 10) {
+            System.out.println("yipyipyip!");
+        } else if (weightInPounds < 30) {
+            System.out.println("bark. bark.");
+        } else {
+            System.out.println("woof!");
+        }
+    }
+    //Let the God of the dog to do the judgement, stattic version
+    public static Dog maxDog(Dog d1, Dog d2){ //create a method called maxDog
+        if (d1.weightInPounds > d2.weightInPounds){
+            return d1;
+        }
+        return d2;
+    }// should have static, because in the last code, we invoke the method using the class name (Dog.maxDog(d1, d2))
+
+    //Let the specific dog(ifself) to do the judgement, non-static version
+    public Dog maxDog(Dog d2){
+        if (this.weightInPounds > d2.weightInPounds){
+            return this;
+        }
+        return d2;
+    }    
+}
+```
+
+```java
+public class DogLauncher {
+    public static void main(String[] args) {
+        Dog d1 = new Dog(15); 
+        Dog d2 = new Dog(100);
+        //static to call the methond
+        Dog bigger = Dog.maxDog(d1, d2); 
+        bigger.makeNoise();
+        
+        //non-static to call the methond
+        Dog bigger = d1.maxDog(d2);  
+        bigger.makeNoise();  
+```
+
+#### \(3\) Static Varibles
+
+```java
+public class Dog {
+    public int weightInPounds; 
+    //the properties apply to all dogs
+    public static String binomen = "Cans famliiaris";
+    
+    System.out.println(Dog.binomen);
+    //when access static var, only use the class
+```
+
+### 6. Larger Than 4 Closest Neighbors
+
+I don't know what he is talking about...
+
