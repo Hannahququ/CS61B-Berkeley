@@ -2,8 +2,8 @@
 
 * [Berkeley CS61B](README.md)
 * [CS61B Week 1](cs61b-week-01.md)
-* [L2 Defining and Using Classes](l2-defining-and-using-classes.md)
-* [Untitled](untitled.md)
+* [CS61B Week 2](l2-defining-and-using-classes.md)
+* [CS61B Week 3](untitled.md)
 
 ## Homework
 

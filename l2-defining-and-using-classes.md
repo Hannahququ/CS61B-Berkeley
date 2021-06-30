@@ -1,2 +1,2 @@
-# L2 Defining and Using Classes
+# CS61B Week 2
 

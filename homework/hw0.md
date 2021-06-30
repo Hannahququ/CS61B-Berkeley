@@ -44,12 +44,12 @@ public class TriangleDrawer {
 } //tested
 ```
 
-### Exercise 2
+### Exercise 2 & 3: return the max value of an int array
 
 ```java
 public class ClassNameHere {
     public static int max(int[] m) { 
-    //function returns the max value of an int array, m is the array name
+//max methond returns the max value of an int array, m is the array name
         int maxValue = m[0];
         for (int i = 1; i < m.length; i++){ //i = 1 is better than i = 0
             if (m[i] > maxValue){ // compare 2 and 9
@@ -60,9 +60,39 @@ public class ClassNameHere {
     }
     public static void main(String[] args) {
         int[] numbers = new int[]{9, 2, 15, 2, 22, 10, 6};
-        System.out.print(max(numbers));
+        System.out.print(max(numbers)); //call max method
     }
 } //tested
+```
+
+### Exercise 4: cumulative
+
+```java
+public class BreakContinue {
+  public static void windowPosSum(int[] a, int n) {
+    for (int i = 0; i < a.length; i++){
+      if (a[i] < 0){
+        continue;
+      }else{
+        for (int j = 1; j <= n; j++){
+          if ((i+j) >= a.length){
+            break;
+          }
+        a[i] = a[i] + a[i+j]; // a[i] += a[i+j]
+        }
+      }
+    }
+  }
+
+  public static void main(String[] args) {
+    int[] a = {1, 2, -3, 4, 5, 4};
+    int n = 3;
+    windowPosSum(a, n);
+
+    // Should print 4, 8, -3, 13, 9, 4
+    System.out.println(java.util.Arrays.toString(a));
+  }
+}
 ```
 
 ### 
