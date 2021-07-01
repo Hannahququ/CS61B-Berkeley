@@ -75,7 +75,7 @@ public class Dog {
 }
 ```
 
-This code above can't be run directly because there's no main method.
+This code above can't be run directly because there's no `main` method.
 
 ```java
 public class DogLauncher {
@@ -85,7 +85,9 @@ public class DogLauncher {
 }
 ```
 
-Calling the makeNoise method from another class \(class.method\) with main method, then can run!
+Calling the `makeNoise` method from another class `DogLauncher`\(class.method\) with `main` method, then can run!
+
+A class that uses another class is sometimes called a "client" of that class, `DogLauncher` is a client of `Dog`.
 
 ```java
 $ javac DogLauncher.java
