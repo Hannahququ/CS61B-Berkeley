@@ -220,9 +220,9 @@ dog[0].makeNoise();
 
 #### \(2\) Class mix with static and non-static methods
 
-compare two dogs: d1 and d2 
+compare two dogs: d1 and d2 \(a little bit confused\)
 
-`this` : Inside a method, use this refer to the current instance
+`this` : Inside a method, use `this` refer to the current instance
 
 ```java
 public class Dog {
@@ -241,7 +241,7 @@ public class Dog {
             System.out.println("woof!");
         }
     }
-    //Let the God of the dog to do the judgement, stattic version
+    //Let the God of the dog to do the judgement, static version
     public static Dog maxDog(Dog d1, Dog d2){ //create a method called maxDog
         if (d1.weightInPounds > d2.weightInPounds){
             return d1;

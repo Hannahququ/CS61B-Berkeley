@@ -6,6 +6,9 @@
 
 ### 2. Methods: must have return type, static/ non-static method
 
+* **Static methods** are invoked by using the **class name**, eg: Dog.makeNoise\(\);
+* **Instance methods** are invoked by using an **instance name**, eg: maya.makeNoise\(\);
+
 ### 3. Class: must have a `main` method to run, if it doesn't have main method, the methods can be invoked by main method of another class
 
 ### 4. Class contains methods \(non-static/instance method: makeNoise\) and variables=objects=instance of class \(weightInPounds and new Dog\(\)\)
@@ -23,5 +26,5 @@ dogs[1] = new Dog(20);
 dog[0].makeNoise();
 ```
 
-
+### 8. Static varibles should be accessed using the class name
 
