@@ -13,3 +13,7 @@
 
 * [Project 0](projects/project-0.md)
 
+## Memorizing Points
+
+* [Week1](memorizing-points/week1.md)
+

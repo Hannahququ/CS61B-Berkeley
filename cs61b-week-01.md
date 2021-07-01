@@ -38,7 +38,7 @@ public class LargerDemo {
 1. All codes must be in class.
 2. Curly braces and semi-colons.
 3. Var must be declared a specific type before use it, and type can't change, so called static type,  eg: \(int x , int y\); int x = 1;
-4. Type verified before code run, if has type issue, code won't run.
+4. Type will be verified before code run, if it has type issue, code won't run.
 5. public static declare functions, functions must have return type \(int\) or void, `main` or `larger` is method \(function in class called method\) 
 6. // for line comments, /\* and \*/ for block comments
 
