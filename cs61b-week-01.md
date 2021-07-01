@@ -14,7 +14,7 @@
 ```java
 public class HelloWorld {
 	public static void main(String[] args) {
-		System.out.println("hello world");
+		System.out.println("Hello World!");
 	}
 }
 ```
@@ -39,7 +39,7 @@ public class LargerDemo {
 2. Curly braces and semi-colons.
 3. Var must be declared a specific type before use it, and type can't change, so called static type,  eg: \(int x , int y\); int x = 1;
 4. Type will be verified before code run, if it has type issue, code won't run.
-5. public static declare functions, functions must have return type \(int\) or void, `main` or `larger` is method \(function in class called method\) 
+5. public static declare functions, functions must have return type \(int\) or void, `main` or `larger` are methods \(function in class called method\) 
 6. // for line comments, /\* and \*/ for block comments
 
 ### 3. HW 0: if...else if...else, while, define method\(function\), arrays, for loop, break and continue, 
@@ -50,7 +50,7 @@ public class LargerDemo {
 
 #### Run java program \(two steps: javac & java\)
 
-```java
+```bash
 $ ls //list the current file
 HelloWorld.java
 $ javac HelloWorld.java //complie the .java file, turn it into .class
@@ -65,7 +65,8 @@ $ cat HelloWorld.java // show the specific code
 ### 2. Defining Classes
 
 * Every method is associated with some class.
-* To run a class, we must define a main method, methons can be invoked by main method of another class
+* To run a class, we must define a main method, methods can be invoked by main method of another class
+* A class that uses another class is sometimes called a "client" of that class, `DogLauncher` is a client of `Dog`.
 
 ```java
 public class Dog {
@@ -85,9 +86,7 @@ public class DogLauncher {
 }
 ```
 
-Calling the `makeNoise` method from another class `DogLauncher`\(class.method\) with `main` method, then can run!
-
-A class that uses another class is sometimes called a "client" of that class, `DogLauncher` is a client of `Dog`.
+Calling the `makeNoise` method \(class.method\) from another class `DogLauncher`with `main` method, then can run!
 
 ```java
 $ javac DogLauncher.java
@@ -98,20 +97,21 @@ Bark!
 ### 3. Object Instantiation
 
 * Classes can contain not just methods, but also data, such as the `size` of each dog.
-* Classes can be instantiated as objects. For example, we will create a single Dog class, and then create instances of this Dog.
+* Classes can be instantiated as objects. For example, we created a single Dog class, and then create instances of this Dog, eg: Dog d = new Dog\(\);
 
-#### \(1\) Here's a Dog class which provdes a blueprint of Dog objects.
+#### \(1\) Here's a Dog class which provides a blueprint of Dog objects.
 
 ```java
 public class Dog {
-    public int weightInPounds; // initiate a var
+    public int weightInPounds; // class contains variables=objects
+    // initiate a var
     
-    //One integer constructor for dogs
+     //One integer constructor for dogs
     public Dog(int w) {
         weightInPounds = w;
-    }
+    }  
     
-    public void makeNoise() { 
+    public void makeNoise() { //class contains methods
     //no static, because weightInPounds is a non-static var
         if (weightInPounds < 10) {
             System.out.println("yipyipyip!");
@@ -128,12 +128,12 @@ public class Dog {
 public class DogLauncher {
     public static void main(String[] args) {
         // Dog.makeNoise(); 
-        // non-static method(makeNoise) can't be referred in static context
-        Dog d = new Dog(); //reference type to initiate a var d
+        // because non-static method(makeNoise) can't be referred in static context
+        Dog d = new Dog(); //reference type to initiate a var d under Dog class
         d.weightInPounds = 25;
         d.makeNoise();  
     } // run, op: bark
-}// create a dog, set weight, then let him make noise 
+}// create a dog (d), set weight, then let him make noise 
 ```
 
 #### \(2\) Constructor
@@ -185,7 +185,7 @@ public class Dog {
 public class DogLauncher {
     public static void main(String[] args) {
         Dog smallDog; // Declaration of a Dog var(m: var name/object/class)
-        new Dog(20); // Instantiationof the Dog class as a Dog object
+        new Dog(20); // Instantiation of the Dog class as a Dog object
         smallDog = new Dog(5); // Instantiation and Assignment
         Dog hugeDog = new Dog(150); // Declaration. Instantiation, and Assignment
         smallDog.makeNoise(); // Invocate the method
