@@ -302,11 +302,9 @@ public class ArgsDemo {
 } //op: these
 ```
 
- In the example above, `args` will be an array of Strings, where the entries are {"these", "are", "command", "line", "arguments"}.
-
-### 7. Larger Than 4 Closest Neighbors
+Arguments can be provided by the operating system to your program as “command line arguments,” and can be accessed using the `args` parameter in `main`. For example if we call our program from the command line like this `java ArgsDemo these are command line arguments`, then the `main` method of `ArgsDemo` will have an array containing the Strings “these”, “are”, “command”, “line”, and “arguments”.
 
 ### 
 
-I have no idea what he is talking about...
+
 

@@ -15,11 +15,13 @@
 
 Variables and methods of a class are also called members of a class, which access using dot
 
-### 5. Constructor define the way of using instance of class \(Dog d = new Dog \(25\);\)
+### 5. Class instantiation is almost always done using the `new` keyword,             eg: Dog d = new Dog\(\);
 
-### 6. Dog d = new Dog \(25\) -- Declaration, Instantiation and Assignment
+Dog d = new Dog \(25\) -- Declaration, Instantiation and Assignment
 
-### 7. Arrays
+### 6. Constructor define the way of using instance of class \(Dog d = new Dog \(25\);\)
+
+### 7. Arrays also instantiated using the `new` keyword
 
 ```java
 Dog [] dogs = new Dog[2];
