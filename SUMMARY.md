@@ -15,5 +15,5 @@
 
 ## Memorizing Points
 
-* [Week1](memorizing-points/week1.md)
+* [Memorizing Point W1-W4](memorizing-points/week1.md)
 
