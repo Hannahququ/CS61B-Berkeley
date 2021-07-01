@@ -262,18 +262,20 @@ public class Dog {
 ```java
 public class DogLauncher {
     public static void main(String[] args) {
-        Dog d1 = new Dog(15); 
+        Dog d = new Dog(15); 
         Dog d2 = new Dog(100);
-        //static to call the methond
-        Dog bigger = Dog.maxDog(d1, d2); 
+        //static to call the method
+        Dog bigger = Dog.maxDog(d, d2); 
         bigger.makeNoise();
         
-        //non-static to call the methond
-        Dog bigger = d1.maxDog(d2);  
+        //non-static to call the method
+        Dog bigger = d.maxDog(d2);  
         bigger.makeNoise();  
 ```
 
 #### \(3\) Static Varibles
+
+Classes to have static var are properties inherent to the calss itself, rather tahn the instance. 
 
 Static var should be accessed using the class name
 
@@ -287,7 +289,24 @@ public class Dog {
     //when access static var, only use the class
 ```
 
-### 6. Larger Than 4 Closest Neighbors
+### 6. **Command Line Arguments**
+
+public static void main\(String\[\] args\)**,** `String[] args`: a parameter that is passed to the main method.
+
+```java
+public class ArgsDemo {
+// print out the 0th command line argument
+    public static void main(String[] args) {
+        System.out.println(args[0]);
+    }
+} //op: these
+```
+
+ In the example above, `args` will be an array of Strings, where the entries are {"these", "are", "command", "line", "arguments"}.
+
+### 7. Larger Than 4 Closest Neighbors
+
+### 
 
 I have no idea what he is talking about...
 
