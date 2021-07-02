@@ -47,6 +47,8 @@ public class TestSort {
 
 ### 2. JUnit
 
+Junit is a package taht is used to debug programs in Java, some Junit functions: `assertEquals`, `assertFalse`, `assertNotNull`
+
 With the JUnit library, our test method could be simplified to the following codes, output is pretty much same with Ad Hoc \(change for loop to just one line\)
 
 ```java
@@ -179,19 +181,77 @@ public static void main(String[] args) {
     }
 ```
 
-#### \(3\) Recursive Array Helper Method
+#### \(3\) Recursive Array Helper Method & Debugging
+
+sort the rest of the array, start at position 1
 
 Since Java doesn't support array slicing \(`x[1:2]`\), we should add a helper method to recursively sort the whole array.
 
 ```java
-public static void sort(String[] x) {
-    sort(x, 0);
+//Actual findSmallest method (finished)
+public class Sort {
+    /** Sorts strings destructively. */
+    public static void sort(String[] x) { 
+        sort(x, 0);     
+    }
+    
+    //create a helper method that sort the array starts at a particular index
+    //(3) Sorts x starting at position start
+    public static void sort(String[] x, int start) {
+        if (start == x.length){ //fix problem: index out of bounds exception
+            return;             //base case
+        }
+        int smallestIndex = findSmallest(x, start);
+        swap(x, start, smallestIndex); //start from the position after the smallest
+        sort(x, start + 1); //sort the rest of the array x, start with index start
+    }
+    
+    
+    /** (2) Swap item a with b*/
+    public static void swap(String[] x, int a, int b) {
+    String temp = x[a]; //creat temporary storage location --temp
+    x[a] = x[b];
+    x[b] = temp;
+    }
+    
+    
+    
+    /** (1) Returns the index of the smallest string in x, starting at a particular start*/
+    public static int findSmallest(String[] x, int start) {
+        int smallestIndex = 0;
+        for (int i = start; i < x.length; i += 1) {
+            int cmp = x[i].compareTo(x[smallestIndex]);
+         // if x[i] < x[smallestIndex], cmp will be -1
+         // a < b, return -1, a = b, return 0, a >b, return 1
+            if (cmp < 0) {
+                smallestIndex = i;
+            }
+        }
+        return smallestIndex;
+    }
 }
+```
 
-public static void sort(String[] x, int start) {
-    smallestIndex = findSmallest(x);
-    swap(x, start, smallestIndex);
-    sort(x, start + 1);
+```java
+//Just to test the findSmallest method works, this is test method
+// Test the Sort.findSmallest method 
+public class TestSort {
+    public static void testFindSmallest() {
+        String[] input = {"i", "have", "an", "egg"};
+        int expected = 2;
+
+        int actual = Sort.findSmallest(input, start：0);
+        org.junit.Assert.assertEquals(expected, actual);        
+
+        String[] input2 = {"there", "are", "many", "pigs"};
+        int expected2 = 2;
+
+        int actual2 = Sort.findSmallest(input2, start: 2);
+        org.junit.Assert.assertEquals(expected2, actual2);
+    }
+    public static void main(String[] args) {
+        testFindSmallest();    
+    }
 }
 ```
 
@@ -210,12 +270,17 @@ public static int findSmallest(String[] x, int start) {
 }
 ```
 
+![](.gitbook/assets/1625238854-1-.png)
+
+The code is finally done!
+
 #### \(4\) Enhanced JUnit Test
 
 To allow IntelliJ to automatically run the tests, we could modify our test structure as the following rules:
 
-* Import the library `org.junit.Test`.
-* Precede each method with `@Test` \(no semi-colon\).
-* Change each test method to be non-static.
-* Remove our main method from the `TestSort` class.
+* Annotate each test with the `@org.junit.Test`
+* Change all test methods to non-static.
+* Intellij provides a default runner, so OK to delete main
+* put `import org.junit.Test;` at the top of the code, then change `@org.junit.Test` to `@Test` at the beginning of each test
+* put `import static org.junit.Assert.*;` at the top of the code, then can delete `org.junit.Assert` in every test
 
