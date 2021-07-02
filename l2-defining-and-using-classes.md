@@ -78,11 +78,18 @@ public class Sort {
     public static void sort(String[] x) { 
            // (1) find the smallest item
            // (2) move it to the front
-           // (3) selection sort the rest (using recursion?)
+           // (3) selection sort the rest of the array (using recursion?)
+           
+           //(3.1)make some calls or glue two helper methods together (findSmallest and swap)
+           int smallestIndex = findSmallest(x);
+           swap(x, 0, smallestIndex);
+           //(3)sort the rest of the array, start at position 1
     }
+    
+    
 
-    /** Returns the smallest string in x. */
-    public static String findSmallest(String[] x) {
+    /** Returns the index of the smallest string in x. */
+    public static int findSmallest(String[] x) {
         int smallestIndex = 0;
         for (int i = 0; i < x.length; i += 1) {
             int cmp = x[i].compareTo(x[smallestIndex]);
@@ -92,7 +99,7 @@ public class Sort {
                 smallestIndex = i;
             }
         }
-        return x[smallestIndex];
+        return smallestIndex;
     }
 }
 ```
@@ -103,15 +110,15 @@ public class Sort {
 public class TestSort {
     public static void testFindSmallest() {
         String[] input = {"i", "have", "an", "egg"};
-        String expected = "an";
+        int expected = 2;
 
-        String actual = Sort.findSmallest(input);
+        int actual = Sort.findSmallest(input);
         org.junit.Assert.assertEquals(expected, actual);        
 
         String[] input2 = {"there", "are", "many", "pigs"};
-        String expected2 = "are";
+        int expected2 = 1;
 
-        String actual2 = Sort.findSmallest(input2);
+        int actual2 = Sort.findSmallest(input2);
         org.junit.Assert.assertEquals(expected2, actual2);
     }
     public static void main(String[] args) {
@@ -171,4 +178,44 @@ public static void main(String[] args) {
         testSwap();    
     }
 ```
+
+#### \(3\) Recursive Array Helper Method
+
+Since Java doesn't support array slicing \(`x[1:2]`\), we should add a helper method to recursively sort the whole array.
+
+```java
+public static void sort(String[] x) {
+    sort(x, 0);
+}
+
+public static void sort(String[] x, int start) {
+    smallestIndex = findSmallest(x);
+    swap(x, start, smallestIndex);
+    sort(x, start + 1);
+}
+```
+
+However, the `findSmallest` method doesn't work well since it will start from 0 instead of the start point. We could easily fix it.
+
+```java
+public static int findSmallest(String[] x, int start) {
+    int smallestIndex = start;
+    for (int i = start; i < x.length; i += 1) {
+        int cmp = x[i].compareTo(x[smallestIndex]);
+        if (cmp < 0) {
+            smallestIndex = i;
+        }
+    }
+    return smallestIndex;
+}
+```
+
+#### \(4\) Enhanced JUnit Test
+
+To allow IntelliJ to automatically run the tests, we could modify our test structure as the following rules:
+
+* Import the library `org.junit.Test`.
+* Precede each method with `@Test` \(no semi-colon\).
+* Change each test method to be non-static.
+* Remove our main method from the `TestSort` class.
 
