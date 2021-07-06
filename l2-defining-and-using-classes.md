@@ -320,7 +320,7 @@ Java has 8 **primitive types**: `byte`, `short`, `int`, `long`, `float`, `double
 
 #### \(3\) Declaring a Primitive Variable
 
-When declare a var of certain type, eg: `int` x; `doudble` y;  
+When declare a var of certain type, eg: `int x`; `doudble y`;  
 
 * Java creates two __internal tables that have each variable name to a location. 
 * Java set aside exactly enough bits to hold a thing. `int` box of 32 bits, `double`box of 64bits
@@ -329,7 +329,7 @@ When declare a var of certain type, eg: `int` x; `doudble` y;
 
 #### \(4\) Assignment
 
-x = -143577468;  y = 567826.8789; fill the two empty reserved boxes with bits \(101001\)
+x = -143577468;  y = 567826.8789; fill the two empty reserved boxes with bits
 
 Simplified Box Notation: Instead of writing memory box contents in binary, we write them in human readable symbols = fill the two empty reserved boxes with those two numbers.
 
@@ -341,11 +341,12 @@ Every type not included in the primitive types is a **reference type**, such as 
 
 **\(1\) Object Instantiation**
 
-When we instantiate an object \(eg: Dog, Walrus\), Java first allocates a box of bits for each instance variable of the class and fills them with a default value \(eg: 0, null\) `Walrus a = new Walrus (int w, double ts)`. 
+When we instantiate an object \(eg: Dog, Walrus\), 
 
-The constructer usually fill every such box with other values.
+1. Java first allocates a box of bits for each instance variable of the class and fills them with a default value \(eg: 0, null\) `Walrus a = new Walrus (int w, double ts)`. 
+2. Then ehe constructer usually fill every such box with other values.
 
-`new` returning the value, or the number of bits in memory, where put the Walrus
+`new` returning the value, or the number of bits in memory, means where put the Walrus, so now you know where to find the Walrus in the future  
 
 ![](.gitbook/assets/1625256037-1-.png)
 
@@ -356,13 +357,38 @@ When we declare a variable of any reference type:
 * Java allocates a box of size 64 bits, no matter what type of object
 * These bits can be either set to Null \(all zeros\) or the address of a specific instance of that class \(returned by `new`\).
 
-#### \(3\) Obey The Golden Rule of Equals
+Eg1: `Walrus someWalrus;` -- create a box of 64 bits,  `someWalrus = null;` -- set it all equal to zero
 
-![](.gitbook/assets/1625257474-1-.png)
+Eg2: `Walrus someWalrus;` -- create a box of 64 bits,  `someWalrus = new Walrus (1000, 8.3);` -- new to find a address to put the Walrus, as a record of this informaiton, so the location/address is 64 bits, but the Walrus itself is 96 bits
+
+![](.gitbook/assets/jie-tu-20210706114214.png)
+
+#### \(3\) Obey The Golden Rule of Equals
 
 When you write `y = x`, you are telling the Java interpreter to **copy the bits** from x into y.
 
-Just as with primitive types, the equals sign copies th bits stored in the reference variable, which is **the address of a specific instance.** Moreover, passing parameters will obey the rule.
+Just as with primitive types, the equals sign copies the bits stored in the reference variable, which is **the address of a specific instance.** 
+
+1. `Walrus a;` -- creates a box of 64 bits
+2. `a = new Walrus (1000, 8.3);` -- `new` goes out to the memory,  find the bits it needs, 96 bits, and shouts the location/ address
+3. `Walrus b;` -- creates a box of 64 bits
+4. `b = a;` -- b point at the same object
+
+![](.gitbook/assets/1625257474-1-.png)
+
+#### \(4\) Passing Parameters to Functions
+
+obey the Golen Rule of Equals, making actual copy of the bits to the new scope called **pass by value**
+
+![](.gitbook/assets/2.png)
+
+1. run `main`, create two double var x and y, each of them is 64 bits, fill the boxes with 5.5 and 10.5
+2. make a call for the average function, = take the main boxes bits, copy to the average function, then store them in it's own scope, then have the local average boxes a and b, so it's actual bits copy to the average boxes=pass by value
+3. In java, you always pass by value, = you always copy the bits
+
+
+
+
 
 #### Arrays
 
