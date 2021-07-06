@@ -284,3 +284,169 @@ To allow IntelliJ to automatically run the tests, we could modify our test struc
 * put `import org.junit.Test;` at the top of the code, then change `@org.junit.Test` to `@Test` at the beginning of each test
 * put `import static org.junit.Assert.*;` at the top of the code, then can delete `org.junit.Assert` in every test
 
+## Lecture 4 References, Recursion, and Lists
+
+### 1. Primitive Types
+
+#### **\(1\) Mystery of Walrus**
+
+The code below will both change the weight of Walrus a and b.
+
+```java
+Walrus a = new Walrus(1000, 8.3); // a weight = 1000
+Walrus b;
+b = a;
+b.weight = 5; // change b affect a's weight to 5 too
+System.out.println(a);
+System.out.println(b);
+```
+
+However, the code below will only change integer x to 2.
+
+```java
+int x = 5;
+int y;
+y = x;
+x = 2; // change x doesn't affect y
+System.out.println("x is: " + x);
+System.out.println("y is: " + y);
+```
+
+**\(2\) Bits**
+
+Information is stored in memory of computers, which is a sequence of ones and zeros, called bits. The identical sequence may have different meanings, since each Java type has a different way to interpret bits. For instance, '01001000' may represent integer 72 or character 'H' based on diff context.
+
+Java has 8 **primitive types**: `byte`, `short`, `int`, `long`, `float`, `double`, `boolean`, `char`. 
+
+#### \(3\) Declaring a Primitive Variable
+
+When declare a var of certain type, eg: `int` x; `doudble` y;  
+
+* Java creates two __internal tables that have each variable name to a location. 
+* Java set aside exactly enough bits to hold a thing. `int` box of 32 bits, `double`box of 64bits
+* Java does not write anything into the reserved boxes
+* Java does not allow access to an uninitialiized variable.
+
+#### \(4\) Assignment
+
+x = -143577468;  y = 567826.8789; fill the two empty reserved boxes with bits \(101001\)
+
+Simplified Box Notation: Instead of writing memory box contents in binary, we write them in human readable symbols = fill the two empty reserved boxes with those two numbers.
+
+The Golden Rule of Equals \(GRoE\): y = x , copies all the bits from x into y. 
+
+### 2. Reference Types
+
+Every type not included in the primitive types is a **reference type**, such as `planet`, `walrus`, `Array`.
+
+**\(1\) Object Instantiation**
+
+When we instantiate an object \(eg: Dog, Walrus\), Java first allocates a box of bits for each instance variable of the class and fills them with a default value \(eg: 0, null\) `Walrus a = new Walrus (int w, double ts)`. 
+
+The constructer usually fill every such box with other values.
+
+`new` returning the value, or the number of bits in memory, where put the Walrus
+
+![](.gitbook/assets/1625256037-1-.png)
+
+**\(2\) Declaring a Reference Variable** 
+
+When we declare a variable of any reference type:
+
+* Java allocates a box of size 64 bits, no matter what type of object
+* These bits can be either set to Null \(all zeros\) or the address of a specific instance of that class \(returned by `new`\).
+
+#### \(3\) Obey The Golden Rule of Equals
+
+![](.gitbook/assets/1625257474-1-.png)
+
+When you write `y = x`, you are telling the Java interpreter to **copy the bits** from x into y.
+
+Just as with primitive types, the equals sign copies th bits stored in the reference variable, which is **the address of a specific instance.** Moreover, passing parameters will obey the rule.
+
+#### Arrays
+
+Arrays are also objects, which are instantiated using the `new` keyword.
+
+* Creates a 64 bit box for storing an array address. \(Declaration\)
+* Creates a new array object. \(Instantiation\)
+* Puts the address of this new object into the 64 bit box. \(Assignment\)
+
+```java
+int[] x; // Declaration
+new int[] {0, 1, 2, 3}; // Instantiation
+int[] x = new int[] {0, 1, 2, 3}; // Declaration, Instantiation, Assignment
+```
+
+### 3. Linked Data Structures
+
+#### IntLists
+
+Here's a very basic linked list:
+
+```text
+public class IntList {
+    public int first;
+    public IntList rest;        
+
+    public IntList(int f, IntList r) {
+        first = f;
+        rest = r;
+    }
+}
+```
+
+There are two ways to create a list of the numbers 5, 10, and 15: build it forward or backward.
+
+```text
+IntList L = new IntList(5, null);
+L.rest = new IntList(10, null);
+L.rest.rest = new IntList(15, null);
+```
+
+```text
+IntList L = new IntList(15, null);
+L = new IntList(10, L);
+L = new IntList(5, L);
+```
+
+We will add methods to the IntList class to let it perform basic tasks.
+
+**size\(\) and iterativeSize\(\)**
+
+We could either use recursive or iterative methods to get the size of the IntList.
+
+```text
+public int size() {
+    if(this.rest == null) {
+        return 1;
+    } else {
+        return 1 + rest.size();
+    }
+}
+
+public int iterativeSize() {
+    IntList p = this;
+    int totalSize = 0;
+    while (p != null) {
+        totalSize += 1;
+        p = p .rest;
+    }
+    return totalSize;
+}
+```
+
+**get\(\)**
+
+Write a method `get(int i)` that returns the ith item of the list.
+
+```text
+public int get(int i) {
+    if (i == 0) {
+        return this.first;
+    } else {
+        return this.rest.get(i - 1);
+    }
+}
+```
+
