@@ -386,17 +386,20 @@ obey the Golen Rule of Equals, making actual copy of the bits to the new scope c
 2. make a call for the average function, = take the main boxes bits, copy to the average function, then store them in it's own scope, then have the local average boxes a and b, so it's actual bits copy to the average boxes=pass by value
 3. In java, you always pass by value, = you always copy the bits
 
+#### \(5\) Example of GRoE
 
+![](.gitbook/assets/3.png)
 
+m: doStuff \(\(3500, 10.5\), 9\), change weight is changing the address, it's dependent, so walrus is \(3400, 10.5\) in everywhere. But, change x is just change the value not the address, it's independent, so x =4 in doStuff, but in main is still 9
 
-
-#### Arrays
+### 3. Arrays
 
 Arrays are also objects, which are instantiated using the `new` keyword.
 
-* Creates a 64 bit box for storing an array address. \(Declaration\)
-* Creates a new array object. \(Instantiation\)
-* Puts the address of this new object into the 64 bit box. \(Assignment\)
+* Creates a 64 bit box for storing an array address, no object is instantiated \(Declaration\)
+* instantiate a new array object, below is an int array. \(Instantiation\)
+* Puts the address of this new object into the 64 bit box named x. \(Assignment\)
+* Instantiated objects can be lost, you'd never get the orignal object back
 
 ```java
 int[] x; // Declaration
@@ -404,75 +407,98 @@ new int[] {0, 1, 2, 3}; // Instantiation
 int[] x = new int[] {0, 1, 2, 3}; // Declaration, Instantiation, Assignment
 ```
 
-### 3. Linked Data Structures
+### 4. IntList -- Linked Data Structures
 
-#### IntLists
+#### \(1\) Create List in forward and Backward
 
-Here's a very basic linked list:
+* list is going to be larger than array, array has fixed size
+* list has two variables: first is integer called first, second is pointer or an address of another int list called rest
 
-```text
+```java
 public class IntList {
     public int first;
     public IntList rest;        
 
-    public IntList(int f, IntList r) {
+    public static void main (String[] args) {
+        IntList L = new IntList();
+        L.first = 5;
+        L.rest = null;
+        // create a new list including 5, named L
+        
+        L.rest = new IntList();
+        L.rest.first = 10;
+        
+        L.rest.rest = new IntList();
+        L.rest.rest.first = 15; 
+        // create a list of the numbers 5, 10, and 15: build it forward     
+    } 
+}
+```
+
+```java
+public class IntList {
+    public int first;
+    public IntList rest;     
+    
+    public IntList (int f, InList r) {
         first = f;
         rest = r;
+    } // constructor   
+
+    public static void main (String[] args) {
+        IntList L = new IntList(15, null);
+        L = new IntList(10, L); // L to be a list has 10 at the front, and has the old list at the back
+        L = new IntList(5, L);
+        // create a list of the numbers 5, 10, and 15: build it backward
     }
 }
 ```
 
-There are two ways to create a list of the numbers 5, 10, and 15: build it forward or backward.
+#### **\(2\) size\(\) and iterativeSize\(\) -- get the size of the list**
 
-```text
-IntList L = new IntList(5, null);
-L.rest = new IntList(10, null);
-L.rest.rest = new IntList(15, null);
+```java
+public class IntList {
+    public int first;
+    public IntList rest;     
+    
+    public IntList (int f, InList r) {
+        first = f;
+        rest = r;
+    } // constructor 
+    
+// Return the size of the list using recursion, need the base case
+    public int size() { //prefer this method, the best solution
+        if (rest == null) {
+            return 1;
+        } 
+        return 1 + this.rest.size();
+    }
+        System.out.println(L.size());
+    
+    
+// Return the size of the list using no recursion
+    public int iterativeSize() {
+        IntList p = this; // create a pointer variable
+        int totalSize = 0;
+        while (p != null) {
+            totalSize += 1;
+            p = p.rest;
+        }
+        return totalSize;
+    }
+        System.out.println(L.iterativeSize());
 ```
 
-```text
-IntList L = new IntList(15, null);
-L = new IntList(10, L);
-L = new IntList(5, L);
-```
+#### **\(3\). get\(\) --**get the i-th element of this IntList
 
-We will add methods to the IntList class to let it perform basic tasks.
-
-**size\(\) and iterativeSize\(\)**
-
-We could either use recursive or iterative methods to get the size of the IntList.
-
-```text
-public int size() {
-    if(this.rest == null) {
-        return 1;
-    } else {
-        return 1 + rest.size();
-    }
+```java
+public int get(int i) { //L.get(0): 5  L.get(1): 10
+    if (i == 0) { // do it recursively, then need base case
+        return first;
+    } 
+    return rest.get(i - 1);
 }
+    System.out.println(L.get(1)); // op: 10
 
-public int iterativeSize() {
-    IntList p = this;
-    int totalSize = 0;
-    while (p != null) {
-        totalSize += 1;
-        p = p .rest;
-    }
-    return totalSize;
-}
-```
-
-**get\(\)**
-
-Write a method `get(int i)` that returns the ith item of the list.
-
-```text
-public int get(int i) {
-    if (i == 0) {
-        return this.first;
-    } else {
-        return this.rest.get(i - 1);
-    }
-}
 ```
 
