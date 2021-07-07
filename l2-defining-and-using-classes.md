@@ -344,9 +344,9 @@ Every type not included in the primitive types is a **reference type**, such as 
 When we instantiate an object \(eg: Dog, Walrus\), 
 
 1. Java first allocates a box of bits for each instance variable of the class and fills them with a default value \(eg: 0, null\) `Walrus a = new Walrus (int w, double ts)`. 
-2. Then ehe constructer usually fill every such box with other values.
-
-`new` returning the value, or the number of bits in memory, means where put the Walrus, so now you know where to find the Walrus in the future  
+2. Then the constructer usually fill every such box with other values. The return value of the constructor will return the location in memory where the boxes live. The address be stored in a reference type var
+3. We use reference type var to store the location in memory of where an object is located, and this is what the constructor returns
+4. `new` returning the value, or the number of bits in memory, means where put the Walrus, so now you know where to find the Walrus in the future  
 
 ![](.gitbook/assets/1625256037-1-.png)
 
@@ -359,15 +359,19 @@ When we declare a variable of any reference type:
 
 Eg1: `Walrus someWalrus;` -- create a box of 64 bits,  `someWalrus = null;` -- set it all equal to zero
 
-Eg2: `Walrus someWalrus;` -- create a box of 64 bits,  `someWalrus = new Walrus (1000, 8.3);` -- new to find a address to put the Walrus, as a record of this informaiton, so the location/address is 64 bits, but the Walrus itself is 96 bits
+Eg2: `Walrus someWalrus;` -- create a box of 64 bits,  `someWalrus = new Walrus (1000, 8.3);` -- `new` to find a address to put the Walrus, as a record of this informaiton, so the location/address is 64 bits, but the Walrus itself is 96 bits
 
 ![](.gitbook/assets/jie-tu-20210706114214.png)
 
-#### \(3\) Obey The Golden Rule of Equals
+### 3. The Golden Rule of Equals
+
+#### \(1\) GRoE
 
 When you write `y = x`, you are telling the Java interpreter to **copy the bits** from x into y.
 
 Just as with primitive types, the equals sign copies the bits stored in the reference variable, which is **the address of a specific instance.** 
+
+GRoE: when we assign a value with equals, we are just copying the bits from one memory box to another.
 
 1. `Walrus a;` -- creates a box of 64 bits
 2. `a = new Walrus (1000, 8.3);` -- `new` goes out to the memory,  find the bits it needs, 96 bits, and shouts the location/ address
@@ -376,7 +380,7 @@ Just as with primitive types, the equals sign copies the bits stored in the refe
 
 ![](.gitbook/assets/1625257474-1-.png)
 
-#### \(4\) Passing Parameters to Functions
+#### \(2\) Passing Parameters to Functions
 
 obey the Golen Rule of Equals, making actual copy of the bits to the new scope called **pass by value**
 
@@ -386,13 +390,13 @@ obey the Golen Rule of Equals, making actual copy of the bits to the new scope c
 2. make a call for the average function, = take the main boxes bits, copy to the average function, then store them in it's own scope, then have the local average boxes a and b, so it's actual bits copy to the average boxes=pass by value
 3. In java, you always pass by value, = you always copy the bits
 
-#### \(5\) Example of GRoE
+#### \(3\) Example of GRoE
 
 ![](.gitbook/assets/3.png)
 
 m: doStuff \(\(3500, 10.5\), 9\), change weight is changing the address, it's dependent, so walrus is \(3400, 10.5\) in everywhere. But, change x is just change the value not the address, it's independent, so x =4 in doStuff, but in main is still 9
 
-### 3. Arrays
+### 4. Arrays
 
 Arrays are also objects, which are instantiated using the `new` keyword.
 
@@ -407,7 +411,7 @@ new int[] {0, 1, 2, 3}; // Instantiation
 int[] x = new int[] {0, 1, 2, 3}; // Declaration, Instantiation, Assignment
 ```
 
-### 4. IntList -- Linked Data Structures
+### 5. IntList -- Linked Data Structures
 
 #### \(1\) Create List in forward and Backward
 
