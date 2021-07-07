@@ -387,7 +387,7 @@ obey the Golen Rule of Equals, making actual copy of the bits to the new scope c
 ![](.gitbook/assets/2.png)
 
 1. run `main`, create two double var x and y, each of them is 64 bits, fill the boxes with 5.5 and 10.5
-2. make a call for the average function, = take the main boxes bits, copy to the average function, then store them in it's own scope, then have the local average boxes a and b, so it's actual bits copy to the average boxes=pass by value
+2. make a call for the average function, = take the main boxes bits, copy to the average function, then store them in it's own scope, then have the local average boxes a and b, so it's actual bits copy to the average boxes=pass by value \(m: define function, give values, call function, pass the values to function\)
 3. In java, you always pass by value, = you always copy the bits
 
 #### \(3\) Example of GRoE
@@ -401,9 +401,10 @@ m: doStuff \(\(3500, 10.5\), 9\), change weight is changing the address, it's de
 Arrays are also objects, which are instantiated using the `new` keyword.
 
 * Creates a 64 bit box for storing an array address, no object is instantiated \(Declaration\)
-* instantiate a new array object, below is an int array. \(Instantiation\)
+* Instantiate a new array object, below is an int array. \(Instantiation\)
 * Puts the address of this new object into the 64 bit box named x. \(Assignment\)
 * Instantiated objects can be lost, you'd never get the orignal object back
+* The size of array can't be changed after created
 
 ```java
 int[] x; // Declaration
@@ -413,10 +414,10 @@ int[] x = new int[] {0, 1, 2, 3}; // Declaration, Instantiation, Assignment
 
 ### 5. IntList -- Linked Data Structures
 
-#### \(1\) Create List in forward and Backward
+#### \(1\) Create IntList in Forward and Backward
 
-* list is going to be larger than array, array has fixed size
-* list has two variables: first is integer called first, second is pointer or an address of another int list called rest
+* list is going to be larger than array, array has fixed size, list can change size
+* list has two variables: first is integer called `first`, second is pointer or an address of another int list called `rest`
 
 ```java
 public class IntList {
