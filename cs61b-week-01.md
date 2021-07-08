@@ -275,7 +275,7 @@ public class DogLauncher {
 
 #### \(3\) Static Varibles
 
-Classes to have static var are properties inherent to the calss itself, rather tahn the instance. 
+Classes to have static var are properties inherent to the calss itself, rather than the instance. 
 
 Static var should be accessed using the class name
 
