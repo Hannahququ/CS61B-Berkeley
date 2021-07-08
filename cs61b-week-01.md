@@ -67,6 +67,7 @@ $ cat HelloWorld.java // show the specific code
 * Every method is associated with some class.
 * To run a class, we must define a main method, methods can be invoked by main method of another class
 * A class that uses another class is sometimes called a "client" of that class, `DogLauncher` is a client of `Dog`.
+* methods and variables are members of class
 
 ```java
 public class Dog {
@@ -104,9 +105,9 @@ Bark!
 ```java
 public class Dog {
     public int weightInPounds; // class contains variables=objects
-    // initiate a var
+    // Instance variable(can have as many as you want)
     
-     //One integer constructor for dogs
+     //(2)One integer constructor for dogs
     public Dog(int w) {
         weightInPounds = w;
     }  
@@ -127,10 +128,9 @@ public class Dog {
 ```java
 public class DogLauncher {
     public static void main(String[] args) {
-        // Dog.makeNoise(); 
+        // Dog.makeNoise() is wrong 
         // because non-static method(makeNoise) can't be referred in static context
-        Dog d = new Dog(); //reference type to initiate a var d under Dog class
-        d.weightInPounds = 25;
+        Dog d = new Dog(25); //reference type to initiate a var d under Dog class
         d.makeNoise();  
     } // run, op: bark
 }// create a dog (d), set weight, then let him make noise 
@@ -138,48 +138,11 @@ public class DogLauncher {
 
 #### \(2\) Constructor
 
-Constructor tell java what to do when a program tries to create an instance of a class
+Constructor tell java what to do when a program tries to create an instance of a class, similar to method
 
-```java
-public class DogLauncher {
-    public static void main(String[] args) {
-        
-     //One integer constructor for dogs
-    public Dog(int w) {
-        weightInPounds = w;
-    }    
-        
-        Dog d = new Dog(25); 
-        d.makeNoise();  
-    } //create a constructor below Dog class
-} //give new Dog an integer, the constructor will be called
-```
+One interger constructor for Dog class, give d an integer, the constructor will be called
 
 #### \(3\) Terminology
-
-```java
-public class Dog {
-    // Instance variable(can have as many as you want)
-    public int weightInPounds; 
-
-    // Constructor(similar to method, determine how to instantiate the class)
-    public Dog(int startingWeight) { 
-        weightInPounds = startingWeight;
-    }
-
-// Non-static method or Instance method: invoked by an instance of the class
-// If the method need to use my instance var, the method must be non-static
-    public void makeNoise() {
-        if (weightInPounds < 10) {
-            System.out.println("yipyipyip!");
-        } else if (weightInPounds < 30) {
-            System.out.println("bark. bark.");
-        } else {
-            System.out.println("woof!");
-        }
-    }
-}
-```
 
 ```java
 public class DogLauncher {
@@ -194,33 +157,14 @@ public class DogLauncher {
 }
 ```
 
-### 4. Array of Objects
+### 4. Static vs. Non-static\(Instance\) Methods
 
-#### To create an array of objects:
-
-* First use the new keyword to create the array
-* Then use new again for each object that you want to put in the array
-
-```java
-Dog [] dogs = new Dog[2];
-dogs[0] = new Dog(8);
-dogs[1] = new Dog(20);
-dog[0].makeNoise();
-```
-
-### 5. Static vs. Non-static\(Instance\) Methods
-
-#### \(1\) Diff
+#### \(1\) Class mix with static and non-static methods -- compare two dogs: d1 and d2 
 
 * **Static methods** are invoked by using the **class name**, eg: Dog.makeNoise\(\);
-* **Instance methods** are invoked by using an **instance name**, eg: maya.makeNoise\(\);
-* Static methods can't access instance var\(weightInPounds\), but they are more simple to use
-* Static/non-static methods or instance var are members of class
-* Static methods must access instance var via a specific instance, eg: d1
-
-#### \(2\) Class mix with static and non-static methods
-
-compare two dogs: d1 and d2 \(a little bit confused\)
+* **Instance methods** are invoked by using an **instance name**, eg: d.makeNoise\(\);
+* Static methods can't access instance var \(weightInPounds\), but they are more simple to use
+* Static methods \(maxDog\) must access instance var \(weightInPounds\) via a specific instance \(d1\), eg: if \(d1.weightInPounds &gt; d2.weightInPounds\)
 
 `this` : Inside a method, use `this` refer to the current instance
 
@@ -242,12 +186,12 @@ public class Dog {
         }
     }
     //Let the God of the dog to do the judgement, static version
-    public static Dog maxDog(Dog d1, Dog d2){ //create a method called maxDog
+    public static Dog maxDog(Dog d1, Dog d2){ //create a method called maxDog, return Dog
         if (d1.weightInPounds > d2.weightInPounds){
             return d1;
-        }
+        }// d1, d2 are instance, so can call non-static var
         return d2;
-    }// should have static, because in the last code, we invoke the method using the class name (Dog.maxDog(d1, d2))
+    }// should have static, because in the next code, we invoke the method using the class name (Dog.maxDog(d, d2))
 
     //Let the specific dog(ifself) to do the judgement, non-static version
     public Dog maxDog(Dog d2){
@@ -273,7 +217,7 @@ public class DogLauncher {
         bigger.makeNoise();  
 ```
 
-#### \(3\) Static Varibles
+#### \( 2\) Static Varibles
 
 Classes to have static var are properties inherent to the calss itself, rather than the instance. 
 
@@ -287,6 +231,20 @@ public class Dog {
     
     System.out.println(Dog.binomen);
     //when access static var, only use the class
+```
+
+### 5. Array of Objects
+
+#### To create an array of objects:
+
+* First use the new keyword to create the array
+* Then use new again for each object that you want to put in the array
+
+```java
+Dog [] dogs = new Dog[2];
+dogs[0] = new Dog(8);
+dogs[1] = new Dog(20);
+dog[0].makeNoise();
 ```
 
 ### 6. **Command Line Arguments**
@@ -303,6 +261,8 @@ public class ArgsDemo {
 ```
 
 Arguments can be provided by the operating system to your program as “command line arguments,” and can be accessed using the `args` parameter in `main`. For example if we call our program from the command line like this `java ArgsDemo these are command line arguments`, then the `main` method of `ArgsDemo` will have an array containing the Strings “these”, “are”, “command”, “line”, and “arguments”.
+
+## 
 
 ### 
 
