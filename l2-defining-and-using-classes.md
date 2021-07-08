@@ -47,7 +47,7 @@ public class TestSort {
 
 ### 2. JUnit
 
-Junit is a package taht is used to debug programs in Java, some Junit functions: `assertEquals`, `assertFalse`, `assertNotNull`
+Junit is a package that is used to debug programs in Java, some Junit functions: `assertEquals`, `assertFalse`, `assertNotNull`
 
 With the JUnit library, our test method could be simplified to the following codes, output is pretty much same with Ad Hoc \(change for loop to just one line\)
 

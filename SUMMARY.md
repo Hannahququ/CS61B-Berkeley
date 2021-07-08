@@ -9,7 +9,3 @@
 
 * [HW0](homework/hw0.md)
 
-## Projects
-
-* [Project 0](projects/project-0.md)
-
