@@ -69,7 +69,7 @@ Basic steps of selection sort a list of N items:
 * Move it to the front.
 * Selection sort the remaining N-1 items \(without touching the front item\).
 
-#### **\(1\) Find the smallest item -- findSmallest\(\)**
+#### **\(1\) Find the smallest item -- findSmallest\(\) method**
 
 Since `<` can't compare strings, we could use the `compareTo` method.
 
@@ -87,7 +87,6 @@ public class Sort {
            swap(x, 0, smallestIndex);
            //(3)sort the rest of the array, start at position 1
     }
-    
     
 
     /** Returns the index of the smallest string in x. */
@@ -126,10 +125,10 @@ public class TestSort {
     public static void main(String[] args) {
         testFindSmallest();    
     }
-}
+} // op is nothing means the method is good
 ```
 
-**\(2\) Move to the frong -- Swap**
+**\(2\) Move to the front -- Swap**
 
 ```java
 //Actual findSmallest method
@@ -343,10 +342,10 @@ Every type not included in the primitive types is a **reference type**, such as 
 
 When we instantiate an object \(eg: Dog, Walrus\), 
 
-1. Java first allocates a box of bits for each instance variable of the class and fills them with a default value \(eg: 0, null\) `Walrus a = new Walrus (int w, double ts)`. 
-2. Then the constructer usually fill every such box with other values. The return value of the constructor will return the location in memory where the boxes live. The address be stored in a reference type var
-3. We use reference type var to store the location in memory of where an object is located, and this is what the constructor returns
-4. `new` returning the value, or the number of bits in memory, means where put the Walrus, so now you know where to find the Walrus in the future  
+1. Java first allocates a box of bits \(yellow boxes\) for each instance variable of the class and fills them with a default value \(eg: 0, null\), after execute the middle part in the picture, and  `Walrus a = new Walrus (1000, 8.3)`, get the below picture.
+2. Then the constructer usually fill every such box with values. yellow box weight = 1000, tuskSize = 8.3. The return value of the constructor \(void\) will return the location in memory where the boxes live. The address be stored in a reference type var \(a\)
+3. We use reference type var \(a\) to store the location in memory of where an object is located, and this is what the constructor returns 
+4. `new` returning the value, or the number of bits in memory, means where put the Walrus, so now you know where to find the Walrus in the future  = give a the yellow boxes with values
 
 ![](.gitbook/assets/1625256037-1-.png)
 
