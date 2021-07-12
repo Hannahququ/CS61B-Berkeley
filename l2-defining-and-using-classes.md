@@ -386,7 +386,7 @@ obey the Golen Rule of Equals, making actual copy of the bits to the new scope c
 ![](.gitbook/assets/2.png)
 
 1. run `main`, create two double var x and y, each of them is 64 bits, fill the boxes with 5.5 and 10.5
-2. make a call for the average function, = take the main boxes bits, copy to the average function, then store them in it's own scope, then have the local average boxes a and b, so it's actual bits copy to the average boxes=pass by value \(m: define function, give values, call function, pass the values to function\)
+2. make a call for the average function, = take the main boxes bits, copy to the average function, then store them in it's own scope, then have the local average boxes a and b, so it's actual bits copy to the average boxes=pass by value \(m: define method, give values, call method, pass the values to method\)
 3. In java, you always pass by value, = you always copy the bits
 
 #### \(3\) Example of GRoE
@@ -465,11 +465,6 @@ public class IntList {
     public int first;
     public IntList rest;     
     
-    public IntList (int f, InList r) {
-        first = f;
-        rest = r;
-    } // constructor 
-    
 // Return the size of the list using recursion, need the base case
     public int size() { //prefer this method, the best solution
         if (rest == null) {
@@ -480,7 +475,7 @@ public class IntList {
         System.out.println(L.size());
     
     
-// Return the size of the list using no recursion
+// Return the size of the list using no recursion ???
     public int iterativeSize() {
         IntList p = this; // create a pointer variable
         int totalSize = 0;
@@ -508,9 +503,11 @@ public int get(int i) { //L.get(0): 5  L.get(1): 10
 
 ## Lecture 5 SLLists, Nested Classes, Sentinel Nodes
 
-The IntList class we've already created is called a 'naked' data structure which is hard to use.
+### 1. SLLists
 
-#### Rebranding
+The IntList class we've already created is called a 'naked' recursive data structure, which is hard to use.
+
+#### \(1\) IntNode class \(helper\)
 
 ```java
 public class IntNode {
@@ -524,139 +521,250 @@ public class IntNode {
 }
 ```
 
-Knowing that `IntNodes` are hard to work with, we're going to create a separate class called `SLList` that the user will interact with.
+#### \(2\) SLList class
 
 ```java
+/** A SLList is a list of integers*/
 public class SLList {
-    public IntNode first;
+    public IntNode first; // var
 
     public SLList(int x) {
-        first = new IntNode(x, null);
+        first = new IntNode(x, null); // constructor for SLList
+    }
+    
+    /**(3) Adds x to the front of the list*/
+    public void addFirst(int x) {
+        first = new IntNode(x, first);
+    }
+    
+    /**(3) Return the first item in the list*/
+    public int getFirst() {
+        return first.item;
+    }
+    
+    public static void main(String[] args) {
+        SLList L = new SLList(15); // create a list of one integer, namely 15
+        //(3) make a list 5, 10, 15, and print the first item 5
+        L.addFirst(10); 
+        L.addFirst(5);
+        System.out.printlin(L.getFirst());
     }
 }
 ```
 
-Thus, we could create a list by using `new SLList(10);`, which is easier to instantiate, instead of using `new IntNode(10, null);`.
+Thus, we could create a list by using `new SLList(15);`15 is the first and only item, which include null in construct, so `SLList` is easier to instantiate, no need to specify null,  instead of using `new IntNode(10, null);`.
 
-#### Private
+old: `IntNode x = new IntNode(15, null);`
 
-However, our `SLList` can be bypassed and the naked data structure can be accessed. In order to solve this problem, we could make the `first` from public to private. Thus, it could be only accessed within the same class.
+new: `SLList y = new SLList(15);`
+
+#### \(3\) addFirst and getFirst methods to SLList
+
+m: constructor let you don't need to declare `null` in SLList, `addFirst` method add the first item in the exact same way: `first = new IntNode(x, first);`
+
+#### \(4\) SLLists vs. IntLists
+
+```java
+SLList L = new SLList(15); //non-naked recursive data structure
+L.addFirst(10); 
+L.addFirst(5);
+int x = L.getFirst()); //read easier
+```
+
+SLList class acts as a middle man between user and raw data structure
+
+```java
+IntList L = new IntList(15, null); //naked recursive data structure
+L = new IntList(10, L); 
+L = new IntList(5, L);
+int x = L.first; //need to understand recursive
+```
+
+Naked recursion: Natural for IntList user to have var that point to the middle of the IntList
+
+### 2. Private, Public, and Nested Classes
+
+#### \(1\) Private and Public
+
+Use the `private` keyword to prevent code in other classes from using members or contructors of SLList class.
 
 ```java
 public class SLList {
-    private IntNode first;
+    private IntNode first; //Don't mess with first, so change public to private
 ...
 ```
 
-* Hide implementation details from users of your class.
-* Safe for you to change private methods.
-* Nothing to do with protection against hackers or other evil entities.
+* Hide implementation details from users of your class. The user doesn't need to know we have a first var.
+* You can change methods/ variables/ constuctors to private whenever you want
+* It's just a simple way to other programmers should not use it, and it's a softer restriction by the compiler that you can't mess with it. Nothing to do with protection against hackers or other evil entities.
+* Whenever you provide a public method, the world can access to that method forever.
 
-#### Nested Classes
+#### \(2\) Nesting a  class
 
-* Java provides a simple way to combine two classes within one file.
-* Having a nested class has no meaningful effect on code performance, and is simply a tool for keeping code organized.
-* When `IntNode` is declared as `static class`, it could not access any instance methods or variables of `SLList`.
+* Combine two classes within one file when a class doesn't stand on its own and is obviously subordinate to another class.
+* Make the nested class `private` if other classes should never use the nested class.
+* If the `IntNode class (nested)`never uses any instance var or methods of the `SLList class (outer)` , which means IntNode class never look outwards, then can add `static.` This results in minor memory savings
 
 ```java
 public class SLList {
-       private static class IntNode {
-            public int item;
-            public IntNode next;
-            public IntNode(int i, IntNode n) {
+   
+    private static class IntNode { //nested class, typically it will be on top
+        public int item;
+        public IntNode next;
+        public IntNode(int i, IntNode n) {
                 item = i;
                 next = n;
-            }
-       }
-
-       private IntNode first; 
-
-       public SLList(int x) {
-           first = new IntNode(x, null);
-       } 
-...
-```
-
-#### Methods
-
-**addFirst\(\)**
-
-```text
-/** Adds x to the front  of the list. */
-public void addFirst(int x) {
-    first = new IntNode(x, first);
-}
-```
-
-**getFirst\(\)**
-
-```text
-/** Returns the first item in the list. */
-public int getFirst() {
-    return first.item;
-}
-```
-
-**addLast\(\)**
-
-```text
-public void addLast(int x) {
-    IntNode p = first;
-    while (p.next != null) {
-        p = p.next;
+        }
     }
-    p.next = new IntNode(x, null);
-}
-```
+    private IntNode first; 
 
-**size\(\)**
-
-```text
-/** Returns the size of the list that starts at IntNode p. */
-private static int size(IntNode p) {
-    if (p.next == null) {
-        return 1;
+    public SLList(int x) { //constructor
+        first = new IntNode(x, null);
+    } 
+    
+    /**Adds x to the front of the list*/
+    public void addFirst(int x) {
+        first = new IntNode(x, first);
     }
-    return p.next.size() + 1;
-}
-
-public int size() {
-    return size(first);
+    
+    /**Return the first item in the list*/
+    public int getFirst() {
+        return first.item;
+    }
+    
+    public static void main(String[] args) {
+        SLList L = new SLList(15); 
+        L.addFirst(10); 
+        L.addFirst(5);
+        System.out.printlin(L.getFirst());
+    }
 }
 ```
 
-#### Caching
+### 3. Methods 
 
-Obviously, the `size()` method is unefficient, so we will add a integer variable to track the size of the list.
+#### \(1\) addLast\(\) and size\(\)
 
-```text
-private int size;
+```java
+public class SLList {
+   
+    private static class IntNode { //nested class, typically it will be on top
+        public int item;
+        public IntNode next;
+        public IntNode(int i, IntNode n) {
+                item = i;
+                next = n;
+        }
+    }
+    private IntNode first; 
 
-public SLList (int x) {
-    size = 1;
-    ...
-}
+    public SLList(int x) { //constructor
+        first = new IntNode(x, null);
+    } 
+    
+    /**Adds x to the front of the list*/ //addFirst() method
+    public void addFirst(int x) {
+        first = new IntNode(x, first);
+    }
+    
+    /**Return the first item in the list*/ //getFirst() method
+    public int getFirst() {
+        return first.item; 
+    }
+    
+    /**Add an item to the end of the list*/ //addLast() method
+    public void addLast(int x) {
+        IntNode p = first;
+        /*Move p until it reaches the end of the list*/
+        while (p.next != null) {
+            p = p.next;
+        }
+        p.next = new IntNode(x, null);
+    }
 
-public void addFirst(int x) {
-    size += 1;
-    ...
-}
+    /**Returns the size of the list that starts at IntNode P*/ //size() method
+    private static int size(IntNode p) { // naked recursive data structure
+        if (p.next == null) {
+            return 1;
+        }
+        return 1+ size(p.next);
+    }
+    public int size() {
+        return size(first);
+    }
+    
+    
+    public static void main(String[] args) {
+        SLList L = new SLList(15); 
+        L.addFirst(10); 
+        L.addFirst(5);
+        L.addLast(20);
+        System.out.printlin(L.size());
+    }
 
-public void addLast (int x) {
-    size += 1;
-    ...
-}
+```
 
-public int size() {
-    return size;
-}
+#### size\(\) method
+
+SLList itself is not recursive, it doesn't have the SLList pointers.
+
+When you write recursive data structure, the common strategy is, you will create a private static recursive helper method, which will speaks the language of Gods, then you will have a public method \(middle man\) call the private recursive helper method, which will speak the language of mortals\(humen\).
+
+addLast\(\) method -- iterativelly, size\(\) -- recursively
+
+| Methods | Non-obvious Improvements |
+| :--- | :--- |
+| addFirst\(\) | \#1 Rebranding: InList -- IntNode |
+| geFirst\(\) | \#2 Bureaucracy: SLList |
+| addLast\(\) | \#3 Access Control: public -- private |
+| size\(\) | \#4 Nested Class: Bringing IntNode into SLList |
+
+#### \(2\) Caching -- the Efficient of size\(\) method -- Fast size\(\)
+
+Obviously, the `size()` method is unefficient, so we will add a special`size` variable `private int size;` to track/ cach the size of the list. = anytime the size of the list changes, we update it.
+
+caching: putting aside data to speed up retrieval at some later date. It is redundant, but speed up
+
+```java
+
+public class SLList {
+   
+    private static class IntNode { //nested class, typically it will be on top
+        public int item;
+        public IntNode next;
+        public IntNode(int i, IntNode n) {
+                item = i;
+                next = n;
+        }
+    }
+    private IntNode first; 
+    private int size;
+
+    public SLList (int x) {
+        size = 1;
+        ...
+    }
+
+    public void addFirst(int x) {
+        size += 1;
+        ...
+    }
+
+    public void addLast (int x) {
+        size += 1;
+        ...
+    }
+
+    public int size() {
+        return size; //compute the size upfront and return it
+    }
 ```
 
 #### Empty List
 
 Here is a simple way to create an empty list, but it has subtle bugs: The program will crash when you add an item to the last of the list.
 
-```text
+```java
 public SLList() {
     first = null;
     size = 0;
