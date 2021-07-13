@@ -558,7 +558,7 @@ old: `IntNode x = new IntNode(15, null);`
 
 new: `SLList y = new SLList(15);`
 
-#### \(3\) addFirst and getFirst methods to SLList
+#### \(3\) addFirst\(\) and getFirst\(\) methods to SLList
 
 m: constructor let you don't need to declare `null` in SLList, `addFirst` method add the first item in the exact same way: `first = new IntNode(x, first);`
 
@@ -643,7 +643,7 @@ public class SLList {
 
 ### 3. Methods 
 
-#### \(1\) addLast\(\) and size\(\)
+#### \(1\) addLast\(\) and size\(\) methods
 
 ```java
 public class SLList {
@@ -704,7 +704,7 @@ public class SLList {
 
 ```
 
-#### size\(\) method
+#### \(2\) size\(\) method
 
 SLList itself is not recursive, it doesn't have the SLList pointers.
 
@@ -712,14 +712,7 @@ When you write recursive data structure, the common strategy is, you will create
 
 addLast\(\) method -- iterativelly, size\(\) -- recursively
 
-| Methods | Non-obvious Improvements |
-| :--- | :--- |
-| addFirst\(\) | \#1 Rebranding: InList -- IntNode |
-| geFirst\(\) | \#2 Bureaucracy: SLList |
-| addLast\(\) | \#3 Access Control: public -- private |
-| size\(\) | \#4 Nested Class: Bringing IntNode into SLList |
-
-#### \(2\) Caching -- the Efficient of size\(\) method -- Fast size\(\)
+#### \(3\) Caching -- the Efficient of size\(\) method -- Fast size\(\)
 
 Obviously, the `size()` method is unefficient, so we will add a special`size` variable `private int size;` to track/ cach the size of the list. = anytime the size of the list changes, we update it.
 
@@ -760,62 +753,147 @@ public class SLList {
     }
 ```
 
-#### Empty List
+#### \(4\) Compare naked recursive data structure with SLList in the context of caching
 
-Here is a simple way to create an empty list, but it has subtle bugs: The program will crash when you add an item to the last of the list.
+* SLList class acts as a middle man between user and the naked recursive data structure, which provides methods when you wanna manipulate/ see the data.
+* SLList class acts as a middle man allows us to store meta information about entire list, eg: size, max, min
+* SLList is object-oriented program approach means let the object control everything, do all the tasks and also track the size of the list 
+* IntList/ Naked recursive list: any time change somethind in the list, need to update bouch of size var.
+
+### 4. Empty List
 
 ```java
-public SLList() {
-    first = null;
-    size = 0;
-}
+public class SLList {
+   
+    private static class IntNode { //nested class, typically it will be on top
+        public int item;
+        public IntNode next;
+        public IntNode(int i, IntNode n) {
+                item = i;
+                next = n;
+        }
+    }
+    private IntNode first; 
+    private int size;
+    
+    /** Creates an empty SLList*/  //constructor
+    public SLList() { //set instance var to represent an empty list
+        first = null;
+        size = 0;
+    }
+    
+    ...methods
+    
+     public static void main(String[] args) {
+        SLList L = new SLList(); //nothing in it, after run this line, it creates an empty list
+        L.addFirst(10); 
+        L.addFirst(5);
+        L.addLast(20);
+        System.out.printlin(L.size());
+    }
+
 ```
+
+Here is a simple way to create an empty list, but it has subtle bugs: The program will crash when you add an item to the last of the list. Because in the addLast\(\) method, `p = first;` but first in the empty list is null, so p = null, then `p.nest` doesn't make sense.
 
 In order to fix the bug, we could either fix the `addLast()` method, which is not simple, or add a sentinel node.
 
-#### Sentinel Node
+#### \(1\) Sentinel Node
 
 We could create a special node that is always there, which is called a "sentinel node".
 
+The empty list is not going to have null pointer, instead of pointing at a node, I'm going to call a sentinel node, a node is always there. So **the empty list is just the sentinel node.** It's our faithful companion waiting for other data to get in line behind it.
+
+By contrast, the three items list has the same faithful companion, and now the ususal recursive naked data structure: 5, 10, 15. **A list with 3 numbers has a sentinel node and 3 nodes that contain real data.**
+
 ```java
-/** The first item, if it exists, is at sentinel.next. */
-private IntNode sentinel;
-
-public SLList() {
-    sentinel = new IntNode(63, null);
-    size = 0;
-}
-
-public SLList(int x) {
-    sentinel = new IntNode(63, null);
-    sentinel.next = new IntNode(x, null);
-    size = 1;
-}
-
-public void addFirst(int x) {
-    sentinel.next = new IntNode(x, sentinel.next);
-    size = size + 1;
-}
-
-public int getFirst() {
-    return sentinel.item;
-}
-
-public void addLast(inx x) {
-    IntNode p = sentinel;
-    while (p.next != null) {
-        p = p.next;
+public class SLList {
+   
+    private static class IntNode { //nested class, typically it will be on top
+        public int item;
+        public IntNode next;
+        public IntNode(int i, IntNode n) {
+                item = i;
+                next = n;
+        }
     }
-    p.next = new IntNode(x, null);
-    size = size + 1;
-}
+    
+    /** The first item (if it exists) is at sentinel.next */ ???
+    private IntNode sentinel; 
+    private int size;
+    
+    /** Creates an empty SLList*/  //constructor
+    public SLList() { //set instance var to represent an empty list
+        sentinel = new IntNode(63, null); //63 just a random number in order to hold something
+        size = 0;
+    }
+    
+    /** Creates one item SLList*/
+    public SLList(int x) {
+        sentinel = new IntNode(63, null); //same faithful companion
+        sentinel.next = new IntNode(x, null); // the faithful companion point at the data we want
+        size = 1;
+    }
+
+    //methods
+    public void addFirst(int x) {
+        sentinel.next = new IntNode(x, sentinel.next);
+        size = size + 1;
+    }
+
+    public int getFirst() {
+        return sentinel.next.item;
+    }
+
+    public void addLast(inx x) {
+        size = size + 1;
+        
+        IntNode p = sentinel;
+        
+        while (p.next != null) {
+            p = p.next;
+        }
+        p.next = new IntNode(x, null);
+    }
+    
+    
+     public static void main(String[] args) {
+        SLList L = new SLList(); //nothing in it, after run this line, it creates an empty list
+        L.addFirst(10); 
+        L.addFirst(5);
+        L.addLast(20);
+        System.out.printlin(L.size());
+    }
 ```
 
-#### Invariants
+* The sentinel node is a faithful companion, use the same phrase, always there for you. Rename first var to be a sentinel
+* sentinel is never null, always points at sentinel node
+* sentinel node's item needs to be some integer, but doesn't matter what value we pick
+* had to fix constructors and methods to be compatible with sentinel nodes
+
+#### \(2\) Invariants
+
+An invariant is a condition that is guaranteed to be true during code execution.
 
 A `SLList` with a sentinel node has at least the following invariants:
 
 * The `sentinel` reference always points to a sentinel node.
-* The front item \(if it exists\), is always at `sentinel.next.item`.
+* The front item \(if it exists\), is always at `sentinel.next`.
 * The `size` variable is always the total number of items that have been added.
+
+Invariants make it easier to reason about code:
+
+* Can assume they are true to simplify code, give you a checklist, once methods finish running, all the invariants should be true \(eg: addLast doesn't need to worry about nulls\)
+* Must ensure that methods perserve invariants
+
+### 5. Summary
+
+| Methods | Non-obvious Improvements |
+| :--- | :--- |
+| addFirst\(int x\) | \#1 Rebranding: InList -- IntNode |
+| geFirst | \#2 Bureaucracy: SLList |
+| size\(\) | \#3 Access Control: public -- private |
+| addLast\(int x\) | \#4 Nested Class: Bringing IntNode into SLList |
+|  | \#5 Caching: Saving size as an int. |
+|  | \#6 Generalizing: Adding a sentinel node to allow representation of the empty list. |
 
