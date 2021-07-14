@@ -9,3 +9,7 @@
 
 * [HW0](homework/hw0.md)
 
+## Discussions
+
+* [Discussion 2](discussions/discussion-2.md)
+
