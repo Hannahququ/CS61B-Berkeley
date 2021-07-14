@@ -11,5 +11,3 @@
 
 ## Discussions
 
-* [Discussion 2](discussions/discussion-2.md)
-
