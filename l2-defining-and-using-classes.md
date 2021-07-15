@@ -467,9 +467,10 @@ public class IntList {
     public int first;
     public IntList rest;     
     
-// Return the size of the list using recursion, need the base case
-    public int size() { //prefer this method, the best solution
-        if (rest == null) {
+/** Return the size of the list using recursionc*/
+//prefer this method, the best solution
+    public int size() { 
+        if (rest == null) { //base case: rest is null, then size is 1
             return 1;
         } 
         return 1 + this.rest.size();
@@ -477,18 +478,20 @@ public class IntList {
         System.out.println(L.size());
     
     
-// Return the size of the list using no recursion ???
+/** Return the size of the list using no recursion */
     public int iterativeSize() {
         IntList p = this; // create a pointer variable
         int totalSize = 0;
         while (p != null) {
             totalSize += 1;
-            p = p.rest;
+            p = p.rest; // iterate every element in p list one by one
         }
         return totalSize;
     }
         System.out.println(L.iterativeSize());
 ```
+
+When you write iterative data structure code, use the name `p` to remind yourself that the **variable is holding a pointer**
 
 #### **\(3\). get\(\) --**get the i-th element of this IntList
 
@@ -528,15 +531,15 @@ public class IntNode {
 ```java
 /** A SLList is a list of integers*/
 public class SLList {
-    public IntNode first; // var
+    public IntNode first; // m: just use IntNode to create the first item
 
-    public SLList(int x) {
+    public SLList(int x) { // m: x is specific refer to first item, which included null
         first = new IntNode(x, null); // constructor for SLList
     }
     
     /**(3) Adds x to the front of the list*/
     public void addFirst(int x) {
-        first = new IntNode(x, first);
+        first = new IntNode(x, first); // m: (x, first) this first is 15, add another first ahead of it
     }
     
     /**(3) Return the first item in the list*/
@@ -554,17 +557,19 @@ public class SLList {
 }
 ```
 
-Thus, we could create a list by using `new SLList(15);`15 is the first and only item, which include null in construct, so `SLList` is easier to instantiate, no need to specify null,  instead of using `new IntNode(10, null);`.
+Thus, we could create a list by using `new SLList(15);`15 is the first and only item, which **include null in construct**, so `SLList` is easier to instantiate, no need to specify null,  instead of using `new IntList(10, null);`.
 
-old: `IntNode x = new IntNode(15, null);`
+old: `IntList L1 = new IntList(15, null);`
 
-new: `SLList y = new SLList(15);`
+new: `SLList L2 = new SLList(15);`
 
 #### \(3\) addFirst\(\) and getFirst\(\) methods to SLList
 
-m: constructor let you don't need to declare `null` in SLList, `addFirst` method add the first item in the exact same way: `first = new IntNode(x, first);`
+ `addFirst` method add another first item ahead of the first item just created in construtor in the exact same way with the constructor
 
 #### \(4\) SLLists vs. IntLists
+
+![](.gitbook/assets/jie-tu-20210715160255.png)
 
 ```java
 SLList L = new SLList(15); //non-naked recursive data structure
@@ -573,7 +578,7 @@ L.addFirst(5);
 int x = L.getFirst()); //read easier
 ```
 
-SLList class acts as a middle man between user and raw data structure
+SLList class acts as a middle man between user and naked recursive data structure
 
 ```java
 IntList L = new IntList(15, null); //naked recursive data structure
@@ -892,7 +897,7 @@ Invariants make it easier to reason about code:
 
 | Methods | Non-obvious Improvements |
 | :--- | :--- |
-| addFirst\(int x\) | \#1 Rebranding: InList -- IntNode |
+| addFirst\(int x\) | \#1 Rebranding: IntList -- IntNode |
 | geFirst | \#2 Bureaucracy: SLList |
 | size\(\) | \#3 Access Control: public -- private |
 | addLast\(int x\) | \#4 Nested Class: Bringing IntNode into SLList |
