@@ -898,7 +898,7 @@ Invariants make it easier to reason about code:
 | Methods | Non-obvious Improvements |
 | :--- | :--- |
 | addFirst\(int x\) | \#1 Rebranding: IntList -- IntNode |
-| geFirst | \#2 Bureaucracy: SLList |
+| geFirst | \#2 Bureaucracy: SLList: 1. hide null 2. addFirst and getFirst methods |
 | size\(\) | \#3 Access Control: public -- private |
 | addLast\(int x\) | \#4 Nested Class: Bringing IntNode into SLList |
 |  | \#5 Caching: Saving size as an int. |
