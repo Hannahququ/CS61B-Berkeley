@@ -289,7 +289,7 @@ To allow IntelliJ to automatically run the tests, we could modify our test struc
 
 #### **\(1\) Mystery of Walrus**
 
-The code below will both change the weight of Walrus a and b.
+The code below will both change the weight of Walrus a and b, becasue a and b point to the same box.
 
 ```java
 Walrus a = new Walrus(1000, 8.3); // a weight = 1000
@@ -300,7 +300,7 @@ System.out.println(a);
 System.out.println(b);
 ```
 
-However, the code below will only change integer x to 2.
+However, the code below will only change integer x to 2, because x and y are in diff boxes.
 
 ```java
 int x = 5;
@@ -315,7 +315,7 @@ System.out.println("y is: " + y);
 
 Information is stored in memory of computers, which is a sequence of ones and zeros, called bits. The identical sequence may have different meanings, since each Java type has a different way to interpret bits. For instance, '01001000' may represent integer 72 or character 'H' based on diff context.
 
-Java has 8 **primitive types**: `byte`, `short`, `int`, `long`, `float`, `double`, `boolean`, `char`. 
+Java has 8 **primitive types**: `byte`, `short`, `int`, `long`, `float`, `double`, `boolean`, `char`, never use `short` and `float`
 
 #### \(3\) Declaring a Primitive Variable
 
@@ -323,7 +323,7 @@ When declare a var of certain type, eg: `int x`; `doudble y`;
 
 * Java creates two __internal tables that have each variable name to a location. 
 * Java set aside exactly enough bits to hold a thing. `int` box of 32 bits, `double`box of 64bits
-* Java does not write anything into the reserved boxes
+* Java does not write anything into the reserved boxes = no default value
 * Java does not allow access to an uninitialiized variable.
 
 #### \(4\) Assignment
@@ -385,9 +385,11 @@ obey the Golen Rule of Equals, making actual copy of the bits to the new scope c
 
 ![](.gitbook/assets/2.png)
 
-1. run `main`, create two double var x and y, each of them is 64 bits, fill the boxes with 5.5 and 10.5
-2. make a call for the average function, = take the main boxes bits, copy to the average function, then store them in it's own scope, then have the local average boxes a and b, so it's actual bits copy to the average boxes=pass by value \(m: define method, give values, call method, pass the values to method\)
-3. In java, you always pass by value, = you always copy the bits
+1. run `main`, create two boxes labeled `x` and `y,` each of them is 64 bits, fill the boxes with 5.5 and 10.5
+2. When the `average` method is invoked, it has its own scope with two new boxes labeled as `a` and `b`, and the bits are simply copied in. This copying of bits is called "pass by value".
+3. m: main method, give values, call average method, pass the values to average method
+4. In java, you always pass by value, = you always copy the bits
+5. If the `average` method were to change `a`, then `x` in `main` would be unchanged.
 
 #### \(3\) Example of GRoE
 
