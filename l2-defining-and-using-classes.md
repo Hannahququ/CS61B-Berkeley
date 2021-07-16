@@ -589,9 +589,7 @@ int x = L.first; //need to understand recursive
 
 Naked recursion: Natural for IntList user to have var that point to the middle of the IntList
 
-### 2. Private, Public, and Nested Classes
-
-#### \(1\) Private and Public
+### 2. Private, Public 
 
 Use the `private` keyword to prevent code in other classes from using members or contructors of SLList class.
 
@@ -601,16 +599,17 @@ public class SLList {
 ...
 ```
 
-* Hide implementation details from users of your class. The user doesn't need to know we have a first var.
+* Hide implementation details from users of your class. The user doesn't need to know we have a first var. = `private` is a signal that certain pieces of code should be ignored.
+* Private variables and methods can only be accessed by code inside the same `.java` file, eg: Class `SLLTroubleMaker` can't access variable `first` in `SLList.java`
 * You can change methods/ variables/ constuctors to private whenever you want
 * It's just a simple way to other programmers should not use it, and it's a softer restriction by the compiler that you can't mess with it. Nothing to do with protection against hackers or other evil entities.
-* Whenever you provide a public method, the world can access to that method forever.
+* Whenever you provide a public method, the world can access to that method forever. = `public` is a signal that as a declaration that a method is available and will work forever.
 
-#### \(2\) Nesting a  class
+### 3. Nested Classes
 
 * Combine two classes within one file when a class doesn't stand on its own and is obviously subordinate to another class.
 * Make the nested class `private` if other classes should never use the nested class.
-* If the `IntNode class (nested)`never uses any instance var or methods of the `SLList class (outer)` , which means IntNode class never look outwards, then can add `static.` This results in minor memory savings
+* If the nested class \(IntNode\) never uses any instance var or methods of the outer/enclosing class \(SLList\), which means IntNode class never look outwards, then declare nested class `static`. Which means nested class can't use any of the members of outer class. This results in minor memory savings
 
 ```java
 public class SLList {
@@ -648,9 +647,9 @@ public class SLList {
 }
 ```
 
-### 3. Methods 
+### 4. addLast\(\) and size\(\) Methods
 
-#### \(1\) addLast\(\) and size\(\) methods
+#### \(1\) code
 
 ```java
 public class SLList {
@@ -681,8 +680,8 @@ public class SLList {
     
     /**Add an item to the end of the list*/ //addLast() method
     public void addLast(int x) {
-        IntNode p = first;
-        /*Move p until it reaches the end of the list*/
+        IntNode p = first; //do it iteratively
+        /*create a pointer variable p and have it iterate through the list to the end*/
         while (p.next != null) {
             p = p.next;
         }
@@ -690,11 +689,11 @@ public class SLList {
     }
 
     /**Returns the size of the list that starts at IntNode P*/ //size() method
-    private static int size(IntNode p) { // naked recursive data structure
-        if (p.next == null) {
+    private static int size(IntNode p) { 
+        if (p.next == null) { // do it recusively
             return 1;
         }
-        return 1+ size(p.next);
+        return 1 + size(p.next); //naked recursive data structure
     }
     public int size() {
         return size(first);
@@ -713,17 +712,27 @@ public class SLList {
 
 #### \(2\) size\(\) method
 
-SLList itself is not recursive, it doesn't have the SLList pointers.
+```java
+private static int size(IntNode p) { //helper method
+        if (p.next == null) { 
+            return 1;
+        }
+        return 1 + size(p.next); 
+    }
+public int size() {
+    return size(first);
+}
+```
 
-When you write recursive data structure, the common strategy is, you will create a private static recursive helper method, which will speaks the language of Gods, then you will have a public method \(middle man\) call the private recursive helper method, which will speak the language of mortals\(humen\).
+1. IntList: size\(\) method: `return 1 + this.rest.size()`, but SLList doesn't have `rest` variable, so create a private helper method that interacts with the underlying nake recursive data structure. = When you write recursive data structure, the common strategy is, you will create a **private static recursive helper method**, which will speaks the language of Gods, then you will have a **public method \(middle man\)** call the private recursive helper method, which will speak the language of mortals\(凡人\).
+2. two methods, same name \(size\) is allowed in Java, as long as they have diff parameters. We called it **overloaded.**
+3. addLast\(\) method -- iterativelly,:    size\(\) -- recursively
 
-addLast\(\) method -- iterativelly, size\(\) -- recursively
+### 5. Caching -- Fast size\(\)
 
-#### \(3\) Caching -- the Efficient of size\(\) method -- Fast size\(\)
+Obviously, the `size()` method is unefficient, so we will add a special`size` variable `private int size;` to track/ cach the current size = anytime the size of the list changes, we update it.
 
-Obviously, the `size()` method is unefficient, so we will add a special`size` variable `private int size;` to track/ cach the size of the list. = anytime the size of the list changes, we update it.
-
-caching: putting aside data to speed up retrieval at some later date. It is redundant, but speed up
+caching \(超高速缓存\): putting aside data to speed up retrieval at some later date. It is redundant, but speed up
 
 ```java
 
@@ -741,8 +750,8 @@ public class SLList {
     private int size;
 
     public SLList (int x) {
+        first = new IntNode(x, null);
         size = 1;
-        ...
     }
 
     public void addFirst(int x) {
@@ -760,14 +769,7 @@ public class SLList {
     }
 ```
 
-#### \(4\) Compare naked recursive data structure with SLList in the context of caching
-
-* SLList class acts as a middle man between user and the naked recursive data structure, which provides methods when you wanna manipulate/ see the data.
-* SLList class acts as a middle man allows us to store meta information about entire list, eg: size, max, min
-* SLList is object-oriented program approach means let the object control everything, do all the tasks and also track the size of the list 
-* IntList/ Naked recursive list: any time change somethind in the list, need to update bouch of size var.
-
-### 4. Empty List
+### 6. Empty List 
 
 ```java
 public class SLList {
@@ -784,12 +786,12 @@ public class SLList {
     private int size;
     
     /** Creates an empty SLList*/  //constructor
-    public SLList() { //set instance var to represent an empty list
+    public SLList() { 
         first = null;
         size = 0;
     }
     
-    ...methods
+    ...four methods
     
      public static void main(String[] args) {
         SLList L = new SLList(); //nothing in it, after run this line, it creates an empty list
@@ -801,17 +803,21 @@ public class SLList {
 
 ```
 
-Here is a simple way to create an empty list, but it has subtle bugs: The program will crash when you add an item to the last of the list. Because in the addLast\(\) method, `p = first;` but first in the empty list is null, so p = null, then `p.nest` doesn't make sense.
+Implement a **constructor** that creates an empty list. But it causes `addLast` method crash when insert into an empty list. Because in the addLast\(\) method, `p = first;` but first in the empty list is null, so p = null, then `p.nest` doesn't make sense, will cause a null pointer exception.
 
 In order to fix the bug, we could either fix the `addLast()` method, which is not simple, or add a sentinel node.
 
-#### \(1\) Sentinel Node
+### 7. Sentinel Node
 
-We could create a special node that is always there, which is called a "sentinel node".
+#### \(1\) Definition
 
-The empty list is not going to have null pointer, instead of pointing at a node, I'm going to call a sentinel node, a node is always there. So **the empty list is just the sentinel node.** It's our faithful companion waiting for other data to get in line behind it.
+We could create a special node that is **always there**, which is called a "sentinel node". So **the empty list is just the sentinel node.** It's our faithful companion waiting for other data to get in line behind it.
 
-By contrast, the three items list has the same faithful companion, and now the ususal recursive naked data structure: 5, 10, 15. **A list with 3 numbers has a sentinel node and 3 nodes that contain real data.**
+The sentinel node will hold a value, which we won't care about. So ?? node can be any value, like 63.
+
+![](.gitbook/assets/1.png)
+
+#### \(2\) Code and Conclusion
 
 ```java
 public class SLList {
@@ -825,7 +831,7 @@ public class SLList {
         }
     }
     
-    /** The first item (if it exists) is at sentinel.next */ ???
+    /** The first item (if it exists) is at sentinel.next 图片*/
     private IntNode sentinel; 
     private int size;
     
@@ -854,7 +860,6 @@ public class SLList {
 
     public void addLast(inx x) {
         size = size + 1;
-        
         IntNode p = sentinel;
         
         while (p.next != null) {
@@ -873,14 +878,15 @@ public class SLList {
     }
 ```
 
-* The sentinel node is a faithful companion, use the same phrase, always there for you. Rename first var to be a sentinel
+* The sentinel node is a faithful companion, use the same phrase, always there for you. 
+* **Rename `first` var to be a `sentinel`**
 * sentinel is never null, always points at sentinel node
 * sentinel node's item needs to be some integer, but doesn't matter what value we pick
 * had to fix constructors and methods to be compatible with sentinel nodes
 
-#### \(2\) Invariants
+### 8. Invariants
 
-An invariant is a condition that is guaranteed to be true during code execution.
+An invariant is a fact about a data structure that is guaranteed to be true during code execution.
 
 A `SLList` with a sentinel node has at least the following invariants:
 
@@ -893,14 +899,21 @@ Invariants make it easier to reason about code:
 * Can assume they are true to simplify code, give you a checklist, once methods finish running, all the invariants should be true \(eg: addLast doesn't need to worry about nulls\)
 * Must ensure that methods perserve invariants
 
-### 5. Summary
+### 9. Summary
 
-| Methods | Non-obvious Improvements |
-| :--- | :--- |
-| addFirst\(int x\) | \#1 Rebranding: IntList -- IntNode |
-| geFirst | \#2 Bureaucracy: SLList: 1. hide null 2. addFirst and getFirst methods |
-| size\(\) | \#3 Access Control: public -- private |
-| addLast\(int x\) | \#4 Nested Class: Bringing IntNode into SLList |
-|  | \#5 Caching: Saving size as an int. |
-|  | \#6 Generalizing: Adding a sentinel node to allow representation of the empty list. |
+| Non-obvious Improvements |
+| :--- |
+| \#1 Rebranding: IntList -- IntNode |
+| \#2 Bureaucracy: SLList: 1. hide null 2. addFirst\(\) and getFirst\(\) methods |
+| \#3 Access Control: public -- private |
+| \#4 Nested Class: 1. Bringing IntNode into SLList 2. addLast\(\) and size\(\) methods |
+| \#5 Caching: Saving size as an int. |
+| \#6 Generalizing: Adding a sentinel node to allow representation of the empty list. |
+
+#### SLList better than IntList
+
+1. simpler to use
+2. more efficient addFirst method
+3. avoid errors by IntList users
+4. easy to implement a construtor that creates an empty list
 
