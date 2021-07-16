@@ -413,10 +413,11 @@ new int[] {0, 1, 2, 3}; // Instantiation
 int[] x = new int[] {0, 1, 2, 3}; // Declaration, Instantiation, Assignment
 ```
 
-### 5. IntList -- Linked Data Structures
+### 5. IntList 
 
 #### \(1\) Create IntList in Forward and Backward
 
+* list -- linked data structure
 * list is going to be larger than array, array has fixed size, list can change size
 * list has two variables: first is integer called `first`, second is pointer or an address of another int list called `rest`
 
@@ -506,9 +507,58 @@ public int get(int i) { //L.get(0): 5  L.get(1): 10
 
 ```
 
-## Lecture 5 SLLists, Nested Classes, Sentinel Nodes
+### 5\* IntList Total Code
 
-### 1. SLLists
+```java
+public class IntList {
+	public int first;
+	public IntList rest;
+
+	public IntList(int f, IntList r) {
+		first = f;
+		rest = r;
+	}
+
+	/** Return the size of the list using... recursion! */
+	public int size() {
+		if (rest == null) {
+			return 1;
+		}
+		return 1 + this.rest.size();
+	}
+
+	/** Return the size of the list using no recursion! */
+	public int iterativeSize() {
+		IntList p = this;
+		int totalSize = 0;
+		while (p != null) {
+			totalSize += 1;
+			p = p.rest;
+		}
+		return totalSize;
+	}
+
+	/** Returns the ith item of this IntList. */
+	public int get(int i) {
+		if (i == 0) {
+			return first;
+		}
+		return rest.get(i - 1);
+	}
+
+	public static void main(String[] args) {
+		IntList L = new IntList(15, null);
+		L = new IntList(10, L);
+		L = new IntList(5, L);
+
+		System.out.println(L.get(100));
+	}
+} 
+```
+
+## Lecture 5 SLLists  
+
+### 1. SLLists -- addFirst\(\) getFirst\(\) methods
 
 The IntList class we've already created is called a 'naked' recursive data structure, which is hard to use.
 
@@ -589,7 +639,7 @@ int x = L.first; //need to understand recursive
 
 Naked recursion: Natural for IntList user to have var that point to the middle of the IntList
 
-### 2. Private, Public 
+### 2. Public to Private
 
 Use the `private` keyword to prevent code in other classes from using members or contructors of SLList class.
 
@@ -899,7 +949,80 @@ Invariants make it easier to reason about code:
 * Can assume they are true to simplify code, give you a checklist, once methods finish running, all the invariants should be true \(eg: addLast doesn't need to worry about nulls\)
 * Must ensure that methods perserve invariants
 
-### 9. Summary
+### 9. SLList Total Code & Summary
+
+```java
+/** An SLList is a list of integers, which hides the terrible truth
+   * of the nakedness within. */
+public class SLList {	
+	private static class IntNode {
+		public int item;
+		public IntNode next;
+
+		public IntNode(int i, IntNode n) {
+			item = i;
+			next = n;
+			System.out.println(size);
+		}
+	} 
+
+	/* The first item (if it exists) is at sentinel.next. */
+	private IntNode sentinel;
+	private int size;
+
+	private static void lectureQuestion() {
+		SLList L = new SLList();
+		IntNode n = IntNode(5, null);
+	}
+
+	/** Creates an empty SLList. */
+	public SLList() {
+		sentinel = new IntNode(63, null);
+		size = 0;
+	}
+
+	public SLList(int x) {
+		sentinel = new IntNode(63, null);
+		sentinel.next = new IntNode(x, null);
+		size = 1;
+	}
+
+ 	/** Adds x to the front of the list. */
+ 	public void addFirst(int x) {
+ 		sentinel.next = new IntNode(x, sentinel.next);
+ 		size = size + 1;
+ 	}
+
+ 	/** Returns the first item in the list. */
+ 	public int getFirst() {
+ 		return sentinel.next.item;
+ 	}
+
+ 	/** Adds x to the end of the list. */
+ 	public void addLast(int x) {
+ 		size = size + 1; 		
+ 		IntNode p = sentinel;
+ 		/* Advance p to the end of the list. */
+ 		while (p.next != null) {
+ 			p = p.next;
+ 		}
+ 		p.next = new IntNode(x, null);
+ 	}
+ 	
+ 	/** Returns the size of the list. */
+ 	public int size() {
+ 		return size;
+ 	}
+
+
+	public static void main(String[] args) {
+ 		/* Creates a list of one integer, namely 10 */
+ 		SLList L = new SLList();
+ 		L.addLast(20);
+ 		System.out.println(L.size());
+ 	}
+}
+```
 
 | Non-obvious Improvements |
 | :--- |
