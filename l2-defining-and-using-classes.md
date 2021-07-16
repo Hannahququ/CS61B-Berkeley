@@ -1041,3 +1041,112 @@ public class SLList {
 4. easy to implement a construtor that creates an empty list
 5. IntList need to do direct pointer mannipulation, SLList as middleman to manipulate the list
 
+## Lecture 6 DLLists
+
+### 1. DLLists
+
+#### \(1\) Improved addLast\(\) method -- last variable
+
+`addLast()` method is **very slow**, because it has to walk through the entire list, like the `size()` method. We can add `last` variable to speed up code.
+
+```java
+public class SLList {
+    private IntNode sentinel;
+    private IntNode last;
+    private int size;
+    
+    public void addLast(int x) {
+        last.next = new IntNode(x, null);
+        last = last.next; // m: create last.next, let last equals to it
+        size += 1;
+    }
+}
+```
+
+#### \(2\) Slowed removeLast\(\) method -- secondToLast
+
+After removing the last node, we need to find the second to last item \(9\), and then set its next pointer to be null, and last will point at 9. Adding a `secondToLast` pointer is not helpful, because then we need to find the third to last item to make sure secondToLast and Last did their job.
+
+![](.gitbook/assets/2%20%281%29.png)
+
+#### \(3\) Slowed removeLast\(\) method -- previous pointer
+
+Add a previous pointer to each IntNode = the list now has **two links for every node,** this kinda list called "Doubly Linded List" = `DLList`
+
+Reverse or previous pointers allow all operations \(add, get, remove\) to be fast.
+
+![](.gitbook/assets/3%20%281%29.png)
+
+#### \(4\) Double Sentinel & Circular List
+
+**Problem:** the `last` pointer sometimes point at the sentinel, sometimes points at a real node.
+
+**Resolution 1:** add a second sentinel at the end of the list, and point it with `sentBack`.
+
+![](.gitbook/assets/4.png)
+
+**Resolution 2:** use a single sentinel and make the list circular, and the front and back pointers will share the same sentinel node.
+
+One sentinel that is both the front and the back, when you have an empty list, the previous is the sentinel itself and the next is the sentinel itself
+
+![](.gitbook/assets/5.png)
+
+![](.gitbook/assets/6.png)
+
+### 2. Generic List
+
+**DLList Limitation:** only hold integer values. We could improve our DLList to make it available for other types. 
+
+\(1\) Specific generic type name \(arbitrary string\) inside angle brackets &lt;&gt; after class name. It acts as a placeholder for a type that is not decided at the time DLList was created. = Defer type selection until later, until we declare a var, until we instatiate a var.
+
+```java
+/** Old Code */
+public class DLList {
+   public class IntNode {
+        public IntNode prev;
+        public int item;
+        public IntNode next;
+        
+        public IntNode(int i, IntNode n) {
+			      item = i;
+			      next = n;
+        }
+   }
+   private IntNode sentinel;
+   private int size;
+    ...
+}
+
+
+/** New Code */
+public class DLList<BleepBlorp> { // Generic version of DLList class
+    public class StuffNode { // type is not int anymore, so change to StuffNode
+        public StuffNode prev;
+        public BleepBlorp item;
+        public StuffNode next;
+        	
+        public StuffNode(BleepBlort i, StuffNode n) {
+			      item = i;
+			      next = n;
+			  }
+	  } 
+    private StuffNode sentinel;
+    private int size;
+    //in all the methods, int changed to BleepBlorp
+}
+```
+
+\(2\) Specific desired type inside of angle brackets during declaration, and also use empty angle brackets during instantiation. When run, String will substitute everywhere for BleepBlorp.
+
+```java
+DLList<String> d2 = new DLList<>("hello");
+d2.addLast("world");
+```
+
+\(3\) When instantiate a generic over a primitive type, use `Integer`, `Double`, `Character`, `Boolean`, `Long`, `Short`, `Byte`, or `Float` instead of their primitive equivalents.
+
+```java
+DLList<Integer> d1 = new DLList<>(5);
+d1.insertFront(10);
+```
+

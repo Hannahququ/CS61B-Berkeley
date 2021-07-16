@@ -1,84 +1,12 @@
 # CS61B Week 3
 
-## Lecture 6 DLLists, Arrays
+## Lecture 6 Arrays
 
 ### 1. DLLists
 
-#### \(1\) Improved addLast\(\) method -- last variable
+### 2.Generic List
 
-`addLast()` method is **very slow**, because it has to walk through the entire list, like the `size()` method. We can add `last` variable to speed up code.
-
-```java
-public class SLList {
-    private IntNode sentinel;
-    private IntNode last;
-    private int size;
-    
-    public void addLast(int x) {
-        last.next = new IntNode(x, null);
-        last = last.next; // m: create last.next, let last equals to it
-        size += 1;
-    }
-}
-```
-
-#### \(2\) Slowed removeLast\(\) method -- secondToLast
-
-After removing the last node, we need to find the second to last item \(9\), and then set its next pointer to be null, and last will point at 9. Adding a `secondToLast` pointer is not helpful, because then we need to find the third to last item to make sure secondToLast and Last did their job.
-
-![](.gitbook/assets/2%20%281%29.png)
-
-#### \(3\) Slowed removeLast\(\) method -- previous pointer
-
-Add a previous pointer to each IntNode = the list now has **two links for every node,** this kinda list called "Doubly Linded List" = `DLList`
-
-Reverse or previous pointers allow all operations \(add, get, remove\) to be fast.
-
-![](.gitbook/assets/3%20%281%29.png)
-
-#### \(4\) Double Sentinel & Circular List
-
-**Problem:** the `last` pointer sometimes point at the sentinel, sometimes points at a real node.
-
-**Resolution 1:** add a second sentinel at the end of the list, and point it with `sentBack`.
-
-![](.gitbook/assets/4.png)
-
-**Resolution 2:** use a single sentinel and make the list circular, and the front and back pointers will share the same sentinel node.
-
-One sentinel that is both the front and the back, when you have an empty list, the previous is the sentinel itself and the next is the sentinel itself
-
-![](.gitbook/assets/5.png)
-
-![](.gitbook/assets/6.png)
-
-### 2. Generic List
-
-We could improve our IntList to make it available for other types.
-
-```java
-public class DLList<BleepBlorp> {
-    private IntNode sentinel;
-    private int size;
-
-    public class IntNode {
-        public IntNode prev;
-        public BleepBlorp item;
-        public IntNode next;
-        ...
-    }
-    ...
-}
-```
-
-We put the desired type inside of angle brackets during declaration, and also use empty angle brackets during instantiation.
-
-```java
-DLList<String> d2 = new DLList<>("hello");
-d2.addLast("world");
-```
-
-#### Array Overview
+### 3. Array Overview
 
 #### Definition and Creation
 
