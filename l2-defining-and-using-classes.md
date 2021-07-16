@@ -1039,4 +1039,5 @@ public class SLList {
 2. more efficient addFirst method
 3. avoid errors by IntList users
 4. easy to implement a construtor that creates an empty list
+5. IntList need to do direct pointer mannipulation, SLList as middleman to manipulate the list
 
