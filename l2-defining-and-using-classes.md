@@ -865,7 +865,7 @@ We could create a special node that is **always there**, which is called a "sent
 
 The sentinel node will hold a value, which we won't care about. So ?? node can be any value, like 63.
 
-![](.gitbook/assets/1.png)
+![](.gitbook/assets/1%20%281%29.png)
 
 #### \(2\) Code and Conclusion
 
