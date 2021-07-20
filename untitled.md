@@ -112,71 +112,106 @@ The key **differences** between memory boxes in arrays and classes:
 
 ## Lecture 7 ALists, Resizing, vs. SLists
 
-#### Limitation of DLists
+### 1. ALists
 
-Suppose we added `get(int i)`, which returns the ith item of the list. While we have a quite long DList, this operation will be significantly slow.
+#### \(1\) int get\(int i\)
 
-By instead, we could use Array to build a list without links.
+Unlike the DLList, the AList will use arrarys to store data instead of a linked list.
 
-#### Random Access in Arrays
+**Limitation of DLists:**
 
-Retrieval from any position of an array is very fast, which is independent of the size of it.
+Suppose we added `int get(int i)`, which returns the ith item of the list. While we have a quite long DList, this operation will be significantly slow. Because we need to walk through the list from the front to back to get to the item that we are trying to retureve.
 
-#### Naive AList Code
+**Solution:**
 
-```text
+Use Array to build a list without links, because without links, there is no need to reverse them. Accessing the ith element of an array takes constant time, which is independent of the size of it.
+
+#### \(2\) Naive AList Code -- Array based list
+
+```java
+//        0 1  2 3 4 5 6 ...
+// items: 6 1 -9 0 0 0 0 ...
+// size: 3
+
 public class AList {
-    private int[] items;
+    private int[] items; // private: no outsider can edit our code
     private int size;
 
-    public AList() {
+    /** Create an empty list */
+    public AList() { // in constructor,need to decide what memory boxes to set up
         items = new int[100];
         size = 0;
     }
 
+    /** Insert x into the back of the list */
     public void addLast(int x) {
         items[size] = x;
         size += 1;
     }
 
+    /** Return the item from the back of the list */
     public int getLast() {
         return items[size - 1];
     }
 
+    /** Get the ith item in the list (0 is the front) */
     public int get(int i) {
         return items[i];
     }
 
+    /* Return the number of items in the list */
     public int size() {
         return size;
+    }
+    
+    /** Delete item from back of the list and return deleted item */
+    public int removeLast() {
+        int returnItem = items[size - 1];
+        items[size - 1] = 0; // set deleted item to 0 is not necessary
+        size -= 1;
+        return returnItem;
     }
 }
 ```
 
-Here are some invariants of this piece of code:
+**Invariants:** \(things that are always true about our data structure\)
 
-* The position of the next item to be inserted is always `size`.
-* `size` is always the number of items in the AList.
-* The last item in the list is always in position `size - 1`.
+* `addLast():` The next item we want to add, will go into position size. 
+* `size:` The number of items in the List should be size
+* `getLast:` The item we want to return is in position `size - 1`.
 
-#### Delete Operation
+#### removeLast\(\) 
 
-```text
+```java
+// second way
 public int removeLast() {
-    int returnItem = items[size - 1];
-    items[size - 1] = 0;
+    int x = getLast();
     size -= 1;
-    return returnItem;
+    return x;
 }
 ```
 
-#### Naive Resizing Arrays
+### 2. Resizing Arrays
+
+#### \(1\) Based code
 
 The limitation of the above data structure is that the size of array is fixed.
 
-To solve that problem, we could simply build a new array that is big enough to accomodate the new data. For example, we can imagine adding the new item as follows:
+To solve that problem, we could simply build a new array `a` that is big enough to accomodate the new data. For example, we can imagine adding the new item as follows:
 
-```text
+```java
+int[] a = new int[size + 1];
+System.arraycopy(items, 0, a, 0, size);
+a[size] = 11;
+item = a;
+size += 1;
+```
+
+We didn't actually resize the old array, just create a copy and set the items pointer to the new array. 
+
+#### \(2\) Add base code in addLast\(\) and resize\(\) method
+
+```java
 public void addLast(int x) {
   if (size == items.length) {
     int[] a = new int[size + 1];
@@ -188,11 +223,30 @@ public void addLast(int x) {
 }
 ```
 
+```java
+/** Resizes the underlying array to the target capacity */  //much better
+public void resize(int capacity) {
+    int[] a = new int[capacity];
+    System.arraycopy(items, 0, a, 0, size);
+    items = a;  	
+}
+
+public void addLast(int x) {
+    if (size == items.length) {
+        resize(size + 1);	
+    }
+    items[size] = x;
+    size += 1;
+}
+```
+
+#### \(3\) Improved code
+
 The problem is that this method has terrible performance when you call `addLast` a lot of times. The time required is exponential instead of linear for SLList.
 
 Geometric resizing is much faster: Just how much better will have to wait. \(This is how the Python list is implemented.\)
 
-```text
+```java
 public void addLast(int x) {
   if (size == items.length) {
 	resize(size * 2);
