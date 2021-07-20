@@ -89,22 +89,26 @@ while (i < x.length) {
 We could create a 2-dimensional array with the following codes.
 
 ```java
+// method 1
 int[][] matrix;
-matrix = new int[4][4];
-matrix = new int[4][];
-matrix[0] = new int[]{1};
-
+matrix = new int[4][]; // creates one array, 4 rows
+matrix = new int[3][4]; // creates five arrays, 3 rows, 4 columns
+matrix[0] = new int[]{1}; // first row is {1}
+// method 2
 int[][] pascalAgain = new int[][]{{1}, {1, 1},{1, 2, 1}, {1, 3, 3, 1}};
 ```
 
-**\(6\) Arrays and Classes**
+#### **\(6\) Arrays vs. Classes**
 
-Both arrays and classes can be used to organize a bunch of memory boxes. In both cases, the number of memory boxes is fixed, i.e. the length of an array cannot be changed, just as class fields cannot be added or removed.
+data structure: list, set, map...
 
-The key differences between memory boxes in arrays and classes:
+Both arrays and classes can be used to organize a bunch of memory boxes. **In both cases, the number of memory boxes is fixed**, i.e. the length of an array cannot be changed, just as class fields cannot be added or removed.
 
-* Array boxes are numbered and accessed using \[\] notation, and class boxes are named and accessed using dot notation.
+The key **differences** between memory boxes in arrays and classes:
+
+* Array boxes are numbered and accessed using \[ \] notation, and class boxes are named and accessed using dot notation.
 * Array boxes must all be the same type. Class boxes can be different types.
+* Array index can be computed at runtime. Class member var names cannot be computed and used at runtime.
 
 ## Lecture 7 ALists, Resizing, vs. SLists
 
