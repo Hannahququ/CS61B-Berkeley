@@ -507,7 +507,7 @@ public int get(int i) { //L.get(0): 5  L.get(1): 10
 
 ```
 
-### 5\* IntList Total Code
+### 5\* IntList Final Code
 
 ```java
 public class IntList {
@@ -949,7 +949,7 @@ Invariants make it easier to reason about code:
 * Can assume they are true to simplify code, give you a checklist, once methods finish running, all the invariants should be true \(eg: addLast doesn't need to worry about nulls\)
 * Must ensure that methods perserve invariants
 
-### 9. SLList Total Code & Summary
+### 9. SLList Final Code & Summary
 
 ```java
 /** An SLList is a list of integers, which hides the terrible truth

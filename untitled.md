@@ -183,7 +183,7 @@ public class AList {
 #### removeLast\(\) 
 
 ```java
-// second way
+// second way, better
 public int removeLast() {
     int x = getLast();
     size -= 1;
@@ -240,36 +240,213 @@ public void addLast(int x) {
 }
 ```
 
-#### \(3\) Improved code
+#### \(3\) Geometric Resizing -- fast AList
 
 The problem is that this method has terrible performance when you call `addLast` a lot of times. The time required is exponential instead of linear for SLList.
 
-Geometric resizing is much faster: Just how much better will have to wait. \(This is how the Python list is implemented.\)
+Geometric resizing is much faster. Growing the size of array by a multiplicative amout, rather than an additive amount. \(This is how the Python list is implemented.\)
 
 ```java
 public void addLast(int x) {
   if (size == items.length) {
-	resize(size * 2);
+	  resize(size * 2);
   }
   items[size] = x;
   size += 1;
 }
 ```
 
-#### Memory Performance
+#### \(4\) Memory Performance
+
+An AList should not only be efficient in time, but also efficient in space.
 
 Our AList is almost done, but we have one major issue. Suppose we insert 1,000,000,000 items, then later remove 990,000,000 items. In this case, we'll be using only 10,000,000 of our memory boxes, leaving 99% completely unused.
 
-To fix this issue, we can also downsize our array when it starts looking empty. Specifically, we define a "usage ratio" R which is equal to the size of the list divided by the length of the `items` array. For example, in the figure below, the usage ratio is 0.04.
+To fix this issue, we can also downsize our array when it starts looking empty. Specifically, we define a **"usage ratio" R** = **the size of the list / items.length** \(the length of array that represent the list\). If the usage ratio &lt; 25%, then you will half the array size. For example, the usage ratio is 4 \(size\) /100 \(length\) = 0.04.
 
-#### Generic Array
+Later we will consider tradeoffs between time and space efficiency for a variety fo algorithms and data structures.
 
-When creating an array of references to Item:
+### 3. Generic Array -- AList Final Code
 
-* `(Item []) new Object[cap];`
-* Causes a compiler warning, which you should ignore.
+#### \(1\) AList Final Code
 
-The another change to our code is that we will delete an item by setting it to `null` instead of `0`, which could be collected by Java Garbage Collector.
+Modify our AList so that it can hold any data type, not just integers. Use the special angle braces notation in our class, and substitute our arbitrary type paramether for integer whereever appropriate.
+
+```java
+// AList final code
+public class AList<Item> {
+    private Item[] items; // private: no outsider can edit our code
+    private int size;
+
+    /** Create an empty list */
+    public AList() { // in constructor,need to decide what memory boxes to set up
+        items = (Item[]) new Object[100]; //cast
+        size = 0;
+    }
+    
+    /** Resizes the underlying array to the target capacity */
+    public void resize(int capacity) {
+    Item[] a = (Item[]) new Object[capacity];
+    System.arraycopy(items, 0, a, 0, size);
+    items = a;  	
+    }
+
+    /** Insert x into the back of the list */
+    public void addLast(Item x) {
+        if (size == items.length) {
+            resize(size + 1);	
+        }
+        items[size] = x;
+        size += 1;
+    }
+
+    /** Return the item from the back of the list */
+    public Item getLast() {
+        return items[size - 1];
+    }
+
+    /** Get the ith item in the list (0 is the front) */
+    public Item get(int i) {
+        return items[i];
+    }
+
+    /* Return the number of items in the list */
+    public int size() {
+        return size;
+    }
+    
+    /** Delete item from back of the list and return deleted item */
+    public Item removeLast() {
+    Item x = getLast();
+    items[size - 1] = null; //null out deleted items
+    size -= 1;
+    return x;
+    }
+}
+```
+
+Error: Item cannot be instantiated directly. Because in Java, generic array is not allowed. We use cast to create generic array. 
+
+```java
+Item[] items = (Item[]) new Object[100]; 
+```
+
+#### \(2\) Nulling out deleted items
+
+Unlike integer based AList, we want to null out deleted items. Java only destroys objects wehn the las reference has been lost. If we fail to null out the reference, then Java will not garbage collect the objects that have been added to the list. Keeping references to unneeded objects is called loitering.
+
+So change to our code is that we will delete an item by setting it to `null` instead of `0`, which could be collected by Java Garbage Collector.
 
 ## Lecture 8 Inheritance, Implements
+
+#### Method Overloading
+
+Suppose we have the method below, which will return the longest string in a `SLList`.
+
+```text
+public static String longest(SLList<String> list) {
+    int maxDex = 0;
+    for (int i = 0; i < list.size(); i += 1) {
+        String longestString = list.get(maxDex);
+        String thisString = list.get(i);
+        if (thisString.length() > longestString.length()) {
+            maxDex = i;
+        }
+    }
+    return list.get(maxDex);
+}
+```
+
+However, since `SLList` and `AList` have exactly the same structure, we could write two `longest` methods to make it compatible with both classes, which is a feature called "method overloading" in Java.
+
+```text
+public static String longest(SLList<String> list)
+public static String longest(AList<String> list)
+```
+
+The disadvantage of method overloading is that it makes the source code quite longer than usual and add more codes to maintain.
+
+#### Hypernyms, Hyponyms, and Interface Inheritance
+
+In Java, in order to express the hierarchy, we need to do two things:
+
+* Define a type for the general list hypernym -- we will choose the name List61B.
+* Specify that SLList and AList are hyponyms of that type.
+
+First, we will create a `List61B` interface, which is a contract that specifies a list of method a list must able to do:
+
+```text
+public interface List61B<Item> {
+    public void addFirst(Item x);
+    public void add Last(Item y);
+    public Item getFirst();
+    public Item getLast();
+    public Item removeLast();
+    public Item get(int i);
+    public void insert(Item x, int position);
+    public int size();
+}
+```
+
+Next, we will modify the definition of both classs to make a promise that both of them implement all the method defined in the interface `List61B`.
+
+```text
+public class SLList<Item> implements List61B<Item>{...}
+public class AList<Item> implements List61B<Item>{...}
+```
+
+Now we can edit our `longest` method to take in a `List61B`. Because `AList` and `SLList` share an "is-a" relationship.
+
+#### Method Overriding
+
+Method overriding means that you implement a method as the same structure as it is defined in a interface, while overloaded methods could have different parameters. In this course, we will add `@Override` tag above each overrided methods. Although this tag is unnecessary, it's useful in debugging.
+
+Different from the Golden Rules of Equal, if X is a subclass of Y, the memory box of X may contain Y. For instance, this piece of code will works well:
+
+```text
+public static void main(String[] args) {
+    List61B<String> someList = new SLList<String>();
+    someList.addFirst("elk");
+}
+```
+
+#### Implementation Inheritance
+
+Typically, we can't add specific implementation to a interface. However, We could add a `default` key word for a method in a interface to allow subclasses to inhert it. Although `SLList` or `AList` does not implement the `print` method in their classes, it will still work.
+
+```text
+default public void print() {
+    for (int i = 0; i < size(); i += 1) {
+        System.out.print(get(i) + " ");
+    }
+    System.out.println();
+}
+```
+
+In order to re-implement the default method in a subclass, we must use the `Override` tag, or the default one will be invoked.
+
+**Dynamic Method Selection**
+
+In Java, variables have two phases of types: static type and dynamic type. In the code below, `lst` has a static type of `List61B` and a dynamic type `SLList`. When Java runs a method that is overriden, it searches for the appropriate method signature in it's **dynamic type** and runs it.
+
+```text
+List61B<String> lst = new SLList<String>();
+```
+
+**Method Selection Algorithm**
+
+Suppose we have a function `foo.bar(x1)`, where `foo` has the static type `TPrime`, and `x1` has the static type `T1`.
+
+**Compile**
+
+When compiling the code, compiler verifies that `TPrime` has at least one method that could handle `T1`, and will record the most **specific** one.
+
+**Run**
+
+When running the code, if `foo`'s dynamic type **override** the `bar` method in `TPrime`, use the overridden method. Otherwise, use the recorded method.
+
+#### Interface Inheritance vs Implementation Inheritance
+
+* Interface inheritance \(what\): Simply tells what the subclasses should be able to do.
+* Implementation inheritance \(how\): Tells the subclasses how they should behave.
 
