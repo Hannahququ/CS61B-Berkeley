@@ -7,7 +7,6 @@
 
 ## Homeworks <a id="homework"></a>
 
+* [Finished Code](homework/finished-code.md)
 * [HW0](homework/hw0.md)
-
-## Discussions
 
