@@ -468,8 +468,8 @@ public class IntList {
     public int first;
     public IntList rest;     
     
-/** Return the size of the list using recursionc*/
-//prefer this method, the best solution
+    /** Return the size of the list using recursion*/
+    //prefer this method, the best solution
     public int size() { 
         if (rest == null) { //base case: rest is null, then size is 1
             return 1;
@@ -479,7 +479,7 @@ public class IntList {
         System.out.println(L.size());
     
     
-/** Return the size of the list using no recursion */
+    /** Return the size of the list using no recursion */
     public int iterativeSize() {
         IntList p = this; // create a pointer variable
         int totalSize = 0;
