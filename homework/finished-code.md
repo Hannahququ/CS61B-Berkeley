@@ -9,7 +9,7 @@ public class IntList {
     public int first;
     public IntList rest;     
     
-    public IntList (int f, InList r) { // constructor 
+    public IntList (int f, IntList r) { // constructor 
         first = f;
         rest = r;
     }   
@@ -54,6 +54,10 @@ public class IntList {
 ```
 
 ### 2. SLList -- linked list
+
+```java
+
+```
 
 ### 3. DLList -- linked list
 
