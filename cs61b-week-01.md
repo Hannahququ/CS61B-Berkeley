@@ -185,6 +185,7 @@ public class Dog {
             System.out.println("woof!");
         }
     }
+    // m: 放弃下面两个例子
     //Let the God of the dog to do the judgement, static version
     public static Dog maxDog(Dog d1, Dog d2){ //create a method called maxDog, return Dog
         if (d1.weightInPounds > d2.weightInPounds){
@@ -208,7 +209,7 @@ public class DogLauncher {
     public static void main(String[] args) {
         Dog d = new Dog(15); 
         Dog d2 = new Dog(100);
-        //static to call the method
+        //static to call the method, result store in bigger instance of Dog class
         Dog bigger = Dog.maxDog(d, d2); 
         bigger.makeNoise();
         
