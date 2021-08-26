@@ -2,9 +2,9 @@
 
 ## Lecture 6 DLList & Arrays
 
-### 1. DLLists
+### 1. DLLists \(W2\)
 
-### 2.Generic List
+### 2.Generic List \(W2\)
 
 ### 3. Arrays 
 
